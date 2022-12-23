@@ -9,7 +9,7 @@
 # [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/xiaoyuxie-vico/PyDimension-Book/blob/main/examples/2_2_cross_scales.ipynb)
 # [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/xiaoyuxie-vico/PyDimension-Book/HEAD)
 
-# # Import libraries
+# ## Import libraries
 
 # In[1]:
 
