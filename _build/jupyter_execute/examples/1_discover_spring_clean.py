@@ -3,6 +3,8 @@
 
 # # Example 1: Discover governing equation from spring-mass-damper systems!
 
+# In this tutorial, we will go through an example to show how to combine dimensionless learning with SINDy to discover the governing equation in spring-mass-damper systems.
+
 # In[1]:
 
 
@@ -11,16 +13,12 @@ import os
 import sys
 
 import pandas as pd
+from pyexpat import model
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.linear_model import LinearRegression, Ridge, LassoCV
 from sklearn.metrics import r2_score
 from sympy.utilities.lambdify import lambdify
-
-sys.path.append(os.getcwd())
-print(os.getcwd())
-from utils.PolyDiff import PolyDiffPoint
-from utils.SeqReg import SeqReg
 
 get_ipython().run_line_magic('matplotlib', 'inline')
 plt.rcParams["font.family"] = "Arial"
@@ -32,120 +30,112 @@ np.set_printoptions(suppress=True)
 # In[2]:
 
 
-# class SeqReg(object):
+class SeqReg(object):
 
-#     def __init__(self):
-#         pass
+    def __init__(self):
+        pass
 
-#     def normalize(self, X, y):
-#         '''
-#         Normalization the data
-#         '''
-#         norm_coef_X = np.mean(np.abs(np.mean(X, axis=0)))
-#         norm_coef_y = np.mean(np.abs(np.mean(y, axis=0)))
-#         norm_coef = min(norm_coef_X, norm_coef_y)
-#         # print('Before X', pd.DataFrame(np.concatenate([X, y], axis=1)).describe())
-#         X = X / norm_coef
-#         y = y / norm_coef
-#         # print('After X', pd.DataFrame(np.concatenate([X, y], axis=1)).describe())
-#         return X, y
+    def normalize(self, X, y):
+        '''
+        Normalization the data
+        '''
+        norm_coef_X = np.mean(np.abs(np.mean(X, axis=0)))
+        norm_coef_y = np.mean(np.abs(np.mean(y, axis=0)))
+        norm_coef = min(norm_coef_X, norm_coef_y)
+        # print('Before X', pd.DataFrame(np.concatenate([X, y], axis=1)).describe())
+        X = X / norm_coef
+        y = y / norm_coef
+        # print('After X', pd.DataFrame(np.concatenate([X, y], axis=1)).describe())
+        return X, y
 
-#     def fit_fixed_threshold(self, X, y, alpha=1.0, threshold=0.005, is_normalize=True):
-#         if is_normalize:
-#             X, y = self.normalize(X, y)
+    def fit_fixed_threshold(self, X, y, alpha=1.0, threshold=0.005, is_normalize=True):
+        if is_normalize:
+            X, y = self.normalize(X, y)
         
-#         # initialize a linear regression model
-#         # model = LinearRegression(fit_intercept=False)
-#         model = Ridge(fit_intercept=False, alpha=1)
-#         model.fit(X, y)
-#         # r2 = model.score(X, y)
-#         for idx in range(3):
-#             coef = model.coef_
-#             flag = np.repeat((np.abs(coef) > threshold).astype(int).reshape(1,-1), 
-#                              X.shape[0], axis=0)
-#             X1 = copy.copy(X)
-#             X1 = np.multiply(X1, flag)
-#             model.fit(X1, y)
-#             r2 = model.score(X1, y)
-#             print(f'training {idx} r2: {r2}')
-#         coef = np.squeeze(model.coef_)
-#         return coef, X1
+        # initialize a linear regression model
+        # model = LinearRegression(fit_intercept=False)
+        model = Ridge(fit_intercept=False, alpha=1)
+        model.fit(X, y)
+        # r2 = model.score(X, y)
+        for idx in range(3):
+            coef = model.coef_
+            flag = np.repeat((np.abs(coef) > threshold).astype(int).reshape(1,-1), 
+                             X.shape[0], axis=0)
+            X1 = copy.copy(X)
+            X1 = np.multiply(X1, flag)
+            model.fit(X1, y)
+            r2 = model.score(X1, y)
+            print(f'training {idx} r2: {r2}')
+        coef = np.squeeze(model.coef_)
+        return coef, X1
 
-#     def fit_dynamic_thresh(self, X, y, non_zero_term=4, alpha=1.0, threshold=0.005, 
-#                 is_normalize=True, fit_intercept=False, model_name='Ridge', max_iter=200):
-#         '''
-#         decrease the threshold when there are only limited non-zero terms
-#         and increase the threshold when thre are more non-zeros terms
-#         '''
-#         if is_normalize:
-#             X, y = self.normalize(X, y)
+    def fit_dynamic_thresh(self, X, y, non_zero_term=4, alpha=1.0, threshold=0.005, 
+                is_normalize=True, fit_intercept=False, model_name='Ridge', max_iter=200):
+        '''
+        decrease the threshold when there are only limited non-zero terms
+        and increase the threshold when thre are more non-zeros terms
+        '''
+        if is_normalize:
+            X, y = self.normalize(X, y)
         
-#         # initialize a linear regression model
-#         if model_name == 'Ridge':
-#             model = Ridge(fit_intercept=fit_intercept, alpha=alpha)
-#         elif model_name == 'LR':
-#             model = LinearRegression(fit_intercept=fit_intercept)
-#         else:
-#             raise Exception('Wrong model_name.')
-#         model.fit(X, y)
-#         count = 0
+        # initialize a linear regression model
+        if model_name == 'Ridge':
+            model = Ridge(fit_intercept=fit_intercept, alpha=alpha)
+        elif model_name == 'LR':
+            model = LinearRegression(fit_intercept=fit_intercept)
+        else:
+            raise Exception('Wrong model_name.')
+        model.fit(X, y)
+        count = 0
 
-#         while count <= max_iter:
-#             coef = model.coef_
-#             flag = np.repeat((np.abs(coef) > threshold).astype(int).reshape(1,-1), 
-#                              X.shape[0], axis=0)
-#             cur_non_zero_term = np.sum(flag[0,:])
-#             X1 = copy.copy(X)
-#             X1 = np.multiply(X1, flag)
-#             model.fit(X1, y)
-#             r2 = model.score(X1, y)
-#             # print(f'training r2: {r2}, threshold: {threshold}, cur_non_zero_term: {cur_non_zero_term}')
-#             if cur_non_zero_term == non_zero_term:
-#                 break
-#             elif cur_non_zero_term < non_zero_term:
-#                 threshold *= 0.95
-#             else:
-#                 threshold *= 1.05
-#             count += 1
+        while count <= max_iter:
+            coef = model.coef_
+            flag = np.repeat((np.abs(coef) > threshold).astype(int).reshape(1,-1), 
+                             X.shape[0], axis=0)
+            cur_non_zero_term = np.sum(flag[0,:])
+            X1 = copy.copy(X)
+            X1 = np.multiply(X1, flag)
+            model.fit(X1, y)
+            r2 = model.score(X1, y)
+            # print(f'training r2: {r2}, threshold: {threshold}, cur_non_zero_term: {cur_non_zero_term}')
+            if cur_non_zero_term == non_zero_term:
+                break
+            elif cur_non_zero_term < non_zero_term:
+                threshold *= 0.95
+            else:
+                threshold *= 1.05
+            count += 1
 
-#         coef = np.squeeze(model.coef_)
-#         if fit_intercept:
-#             coef_list = coef.tolist()
-#             coef_list.append(float(model.intercept_))
-#             coef = np.array(coef_list)
+        coef = np.squeeze(model.coef_)
+        if fit_intercept:
+            coef_list = coef.tolist()
+            coef_list.append(float(model.intercept_))
+            coef = np.array(coef_list)
 
-#         return coef, X1, r2
+        return coef, X1, r2
 
 
 # In[3]:
 
 
-# # The original code of this part: https://github.com/snagcliffs/PDE-FIND
-# from pyexpat import model
+def PolyDiffPoint(u, x, deg=3, diff=1, index=None):
+    '''
+    Poly diff
+    The original code of this part: https://github.com/snagcliffs/PDE-FIND
+    '''
+    n = len(x)
+    # if index == None: index = int((n-1)/2)
+    if index == None: index = (n-1)//2
 
-# def PolyDiffPoint(u, x, deg=3, diff=1, index=None):
-#     '''
-#     Poly diff
-#     '''
-#     n = len(x)
-#     # if index == None: index = int((n-1)/2)
-#     if index == None: index = (n-1)//2
-
-#     # Fit to a polynomial
-#     poly = np.polynomial.chebyshev.Chebyshev.fit(x, u, deg)
+    # Fit to a polynomial
+    poly = np.polynomial.chebyshev.Chebyshev.fit(x, u, deg)
     
-#     # Take derivatives
-#     derivatives = []
-#     for d in range(1, diff + 1):
-#         derivatives.append(poly.deriv(m=d)(x[index]))
+    # Take derivatives
+    derivatives = []
+    for d in range(1, diff + 1):
+        derivatives.append(poly.deriv(m=d)(x[index]))
     
-#     return derivatives
-
-
-# In[ ]:
-
-
-
+    return derivatives
 
 
 # ## Dataset preparation
