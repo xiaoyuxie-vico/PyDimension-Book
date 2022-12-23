@@ -33,4 +33,4 @@ html:
 
 launch_buttons:
   binderhub_url: "https://mybinder.org/v2/gh/xiaoyuxie-vico/PyDimension-Book/HEAD"  # The URL for your BinderHub (e.g., https://mybinder.org)
-
+  colab_url: "https://colab.research.google.com"
