@@ -1,13 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Cross materials for the keyhole problem
-# 
-# - **Authors**: Xiaoyu Xie
-# - **Contact**: xiaoyuxie2020@u.northwestern.edu
-# - **Date**: June, 2022
+# # Example 2: Comparison of dimensionless learning with popular machine learning algorithms
 
-# # Import libraries
+# ## Import libraries
 
 # In[1]:
 
@@ -440,13 +436,6 @@ df_final.head()
 # In[12]:
 
 
-df_final.to_csv('../results/cross_material.csv')
-df_final = pd.read_csv('../results/cross_material.csv')
-
-
-# In[13]:
-
-
 fig = plt.figure()
 sns.barplot(data=df_final, x='Model_name', y='R2', hue='Data source')
 plt.ylim([-0.1, 1.1])
@@ -454,5 +443,5 @@ plt.legend(fontsize=14, loc=4)
 plt.xlabel('Model name', fontsize=18)
 plt.ylabel(r'$R^2$', fontsize=18)
 plt.tick_params(labelsize=14)
-plt.savefig('../results/cross_material.jpg', dpi=300)
+plt.show()
 
