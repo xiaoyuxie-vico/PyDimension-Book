@@ -50,6 +50,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="prev" title="Welcome to PyDimension Documentation" href="../intro.html" />
@@ -334,6 +336,16 @@ title="Print to PDF"
    Dataset preparation
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#recover-m-c">
+   Recover -m/c
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#recover-k-c">
+   Recover -k/c
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -361,6 +373,16 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#dataset-preparation">
    Dataset preparation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#recover-m-c">
+   Recover -m/c
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#recover-k-c">
+   Recover -k/c
   </a>
  </li>
 </ul>
@@ -553,10 +575,420 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f834fe10b10&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f366a8a7690&gt;]
 </pre></div>
 </div>
 <img alt="../_images/1_discover_spring_clean_7_1.png" src="../_images/1_discover_spring_clean_7_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FitEqu</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    For a given data, fit the governing equation.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FitEqu</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">prepare_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">A0</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">Nt</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        generate the dataset</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">SpringMassDataset</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">A0</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">et</span><span class="o">=</span><span class="n">et</span><span class="p">,</span> <span class="n">Nt</span><span class="o">=</span><span class="n">Nt</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">solution</span><span class="p">()</span>  <span class="c1"># {&#39;t&#39;: t, &#39;x&#39;: x}</span>
+        <span class="k">return</span> <span class="n">data</span>
+    
+    <span class="k">def</span> <span class="nf">cal_derivatives</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">Nt</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">num_points</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">boundary_t</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        prepare library for regression</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">x_clean</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">boundary_t</span><span class="p">,</span> <span class="n">Nt</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">boundary_t</span><span class="p">)</span>
+        <span class="c1"># points = np.random.choice(t, num_points, replace=False)</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">t</span>
+        <span class="n">num_points</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_points</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">xt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_points</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">xtt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_points</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">Nt_sample</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">boundary_t</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_points</span><span class="p">):</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+            <span class="n">x</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_clean</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+            <span class="n">x_part</span> <span class="o">=</span> <span class="n">x_clean</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="nb">int</span><span class="p">((</span><span class="n">Nt_sample</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span> <span class="n">t</span><span class="o">+</span><span class="nb">int</span><span class="p">((</span><span class="n">Nt_sample</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)]</span>
+            <span class="n">xt</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="n">xtt</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">PolyDiffPoint</span><span class="p">(</span><span class="n">x_part</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">Nt_sample</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span><span class="p">,</span> <span class="n">deg</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">xt</span><span class="p">,</span> <span class="n">xtt</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">build_library</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xt</span><span class="p">,</span> <span class="n">xtt</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        build the library for sparse regression</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">X_library</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">x</span><span class="p">,</span> 
+            <span class="n">xtt</span><span class="p">,</span> 
+            <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> 
+            <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">xt</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">xtt</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="p">]</span>
+        <span class="n">X_library</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">X_library</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;xtt&#39;</span><span class="p">,</span> <span class="s1">&#39;x^2&#39;</span><span class="p">,</span> <span class="s1">&#39;x*xt&#39;</span><span class="p">,</span> <span class="s1">&#39;x*xtt&#39;</span><span class="p">]</span>
+        <span class="n">y_library</span> <span class="o">=</span> <span class="n">xt</span>
+        <span class="k">return</span> <span class="n">X_library</span><span class="p">,</span> <span class="n">y_library</span><span class="p">,</span> <span class="n">names</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="n">X_library</span><span class="p">,</span> <span class="n">y_library</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.002</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        squential threshold with dynamic threshold</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">SeqReg</span><span class="p">()</span>
+        <span class="n">coef</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_dynamic_thresh</span><span class="p">(</span><span class="n">X_library</span><span class="p">,</span> <span class="n">y_library</span><span class="p">,</span> 
+                        <span class="n">is_normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">non_zero_term</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">,</span> <span class="n">fit_intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;LR&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fitting r2&#39;</span><span class="p">,</span> <span class="n">r2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">coef</span>
+
+
+<span class="k">def</span> <span class="nf">prepare_dataset</span><span class="p">(</span><span class="n">is_show</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    prepare a sets of dataset</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">fit_equ</span> <span class="o">=</span> <span class="n">FitEqu</span><span class="p">()</span>
+    <span class="c1"># k, m, A0, c, et, Nt</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">800</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">800</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.004</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">800</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.07</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">800</span><span class="p">],</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="n">is_show</span><span class="p">:</span> <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> 
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">A0</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">Nt</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">et</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">Nt</span><span class="p">)</span>
+        <span class="n">df_each</span> <span class="o">=</span> <span class="n">fit_equ</span><span class="o">.</span><span class="n">prepare_data</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">A0</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">Nt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_show</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_each</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">],</span> <span class="n">df_each</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">])</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">xt</span><span class="p">,</span> <span class="n">xtt</span> <span class="o">=</span> <span class="n">fit_equ</span><span class="o">.</span><span class="n">cal_derivatives</span><span class="p">(</span><span class="n">df_each</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">Nt</span><span class="p">)</span>
+        <span class="n">X_library</span><span class="p">,</span> <span class="n">y_library</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="n">fit_equ</span><span class="o">.</span><span class="n">build_library</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xt</span><span class="p">,</span> <span class="n">xtt</span><span class="p">)</span>
+        <span class="n">coef</span> <span class="o">=</span> <span class="n">fit_equ</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_library</span><span class="p">,</span> <span class="n">y_library</span><span class="p">)</span>
+        <span class="n">coef_res</span> <span class="o">=</span> <span class="p">[(</span><span class="n">each</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">round</span><span class="p">(</span><span class="n">each</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">4</span><span class="p">))</span> <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">coef</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">each</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mf">1e-3</span><span class="p">]</span>
+        <span class="n">coef_res</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">coef_res</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">m_coef</span><span class="p">,</span> <span class="n">k_coef</span> <span class="o">=</span> <span class="n">coef_res</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">coef_res</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">m</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">A0</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">k_coef</span><span class="p">,</span> <span class="n">m_coef</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">k_coef</span><span class="o">+</span><span class="n">k</span><span class="o">/</span><span class="n">c</span><span class="p">)</span><span class="o">/</span><span class="nb">abs</span><span class="p">(</span><span class="n">k</span><span class="o">/</span><span class="n">c</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">m_coef</span><span class="o">+</span><span class="n">m</span><span class="o">/</span><span class="n">c</span><span class="p">)</span><span class="o">/</span><span class="nb">abs</span><span class="p">(</span><span class="n">m</span><span class="o">/</span><span class="n">c</span><span class="p">)])</span>
+    <span class="k">if</span> <span class="n">is_show</span><span class="p">:</span> 
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time: t/s&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Displacement: x/m&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="c1"># plt.savefig(&#39;../results/pde_spring.png&#39;, dpi=300)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;A0&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> 
+                       <span class="s1">&#39;k_coef&#39;</span><span class="p">,</span> <span class="s1">&#39;m_coef&#39;</span><span class="p">,</span> <span class="s1">&#39;k_coef_err_per&#39;</span><span class="p">,</span> <span class="s1">&#39;c_coef_err_per&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">prepare_dataset</span><span class="p">(</span><span class="n">is_show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting r2 1.0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting r2 1.0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting r2 1.0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting r2 1.0
+</pre></div>
+</div>
+<img alt="../_images/1_discover_spring_clean_8_4.png" src="../_images/1_discover_spring_clean_8_4.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     m    k    A0      c   k_coef   m_coef  k_coef_err_per  c_coef_err_per
+0  1.0  1.0  0.10  0.100 -10.0086 -10.0170        0.000860        0.001700
+1  0.8  0.5  0.05  0.050 -10.0054 -16.0171        0.000540        0.001069
+2  0.1  0.1  0.02  0.004 -25.0214 -25.0428        0.000856        0.001712
+3  0.2  0.2  0.07  0.020 -10.0086 -10.0170        0.000860        0.001700
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="recover-m-c">
+<h2>Recover -m/c<a class="headerlink" href="#recover-m-c" title="Permalink to this headline">#</a></h2>
+<p>Dimension matrix for input parameters:
+<span class="math notranslate nohighlight">\(\begin{align}
+    D_{in}= \begin{bmatrix}
+          1, 1, 0, 1  \\
+          0, 0, 1, 0 \\
+          0, -2, 0, -1
+         \end{bmatrix}
+\end{align}\)</span></p>
+<p>Dimension matrix for output parameters:
+<span class="math notranslate nohighlight">\(\begin{align}
+    D_{out}= \begin{bmatrix}
+           0 \\
+           0 \\
+           1
+         \end{bmatrix}
+\end{align}\)</span></p>
+<p>Solution space is:
+<span class="math notranslate nohighlight">\(\begin{align}
+    w &amp;= \begin{bmatrix}
+           1 \\
+           1 \\
+           0 \\
+           -2 
+         \end{bmatrix} * \gamma + 
+         \begin{bmatrix}
+           1 \\
+           0 \\
+           0 \\
+           -1
+         \end{bmatrix}
+\end{align}\)</span></p>
+<p>The best basis coefficients are <span class="math notranslate nohighlight">\(\gamma=0\)</span>.</p>
+<p>The best solution <span class="math notranslate nohighlight">\(w^*\)</span> is
+<span class="math notranslate nohighlight">\(\begin{align}
+    w^* &amp;= \begin{bmatrix}
+           1 \\
+           0 \\
+           0 \\
+           -1
+         \end{bmatrix}
+\end{align}\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DimensionlessLearning</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Indentify the explicit form one coefficient using dimensionless learning</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">input_list</span><span class="p">,</span> <span class="n">output_coef</span><span class="p">,</span> <span class="n">dimension_info</span><span class="p">,</span> <span class="n">basis_list</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DimensionlessLearning</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_list</span> <span class="o">=</span> <span class="n">input_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_coef</span> <span class="o">=</span> <span class="n">output_coef</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare_dataset</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dimension_info</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_list</span> <span class="o">=</span> <span class="n">dimension_info</span><span class="p">,</span> <span class="n">basis_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basis1_in</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis2_in</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare_dimension</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">prepare_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        prepare the input and output data</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">input_list</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">output_coef</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+        
+    <span class="k">def</span> <span class="nf">prepare_dimension</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        parse dimension for input and output</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">basis1_in</span><span class="p">,</span> <span class="n">basis2_in</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">basis1_in</span><span class="p">,</span> <span class="n">basis2_in</span>
+
+    <span class="k">def</span> <span class="nf">fetch_coef_pi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coef</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        parse the combined weights for the input</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">coef_pi</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis1_in</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis2_in</span>
+        <span class="k">return</span> <span class="n">coef_pi</span>
+        
+    <span class="k">def</span> <span class="nf">check_dimension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coef</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        check whether the basis vectors can formulated as the D_out</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">coef_pi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_coef_pi</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;[check] coef_pi: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">coef_pi</span><span class="p">)</span>
+        <span class="n">target_D_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension_info</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">coef_pi</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;[check] target_D_out: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">target_D_out</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">target_D_out</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension_info</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="s1">&#39;Wrong target_D_out!&#39;</span>
+
+    <span class="k">def</span> <span class="nf">fit_pattern_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        pattern search</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">def</span> <span class="nf">get_coordinates</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">delta</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Build a list to store all possible coordiantes</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="n">coord_all</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">a_</span> <span class="ow">in</span> <span class="p">[</span><span class="n">a</span><span class="o">-</span><span class="n">delta</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="n">delta</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="p">[</span><span class="n">a_</span><span class="p">]</span> <span class="o">!=</span> <span class="p">[</span><span class="n">a</span><span class="p">]:</span>
+                    <span class="n">coord_all</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">a_</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">coord_all</span>
+        
+        <span class="k">def</span> <span class="nf">opt</span><span class="p">(</span><span class="n">coef</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            fit a linear regression</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="n">coef_pi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_coef_pi</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span>
+            <span class="n">pi_in</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">coef_pi</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">reg</span> <span class="o">=</span><span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">pi_in</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">pi_in</span><span class="p">)</span>
+            <span class="n">r2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">r2</span><span class="p">,</span> <span class="n">coef_pi</span><span class="p">,</span> <span class="n">reg</span><span class="o">.</span><span class="n">coef_</span>
+
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="n">res</span><span class="p">,</span> <span class="n">break_points</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># [-2, 2] delta=0.5</span>
+        <span class="c1"># a= 0</span>
+        <span class="n">coef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">a</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">iter_num</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">0.5</span>
+        <span class="k">while</span> <span class="n">iter_num</span> <span class="o">&lt;</span> <span class="n">max_iter</span><span class="p">:</span>
+            <span class="n">candidate_coord</span> <span class="o">=</span> <span class="n">get_coordinates</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
+            <span class="n">r2_center</span><span class="p">,</span> <span class="n">reg_coef_center</span><span class="p">,</span> <span class="n">coef_w_center</span> <span class="o">=</span> <span class="n">opt</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span>
+            <span class="c1"># print(&#39;r2_center&#39;, round(r2_center, 2), &#39;reg_coef_center&#39;, [round(each, 2) for each in list(reg_coef_center.reshape(-1,))])</span>
+            <span class="c1"># print(&#39;coef_w_center&#39;, coef_w_center)</span>
+
+            <span class="k">if</span> <span class="n">r2_center</span> <span class="o">&lt;</span> <span class="mf">0.2</span><span class="p">:</span>
+                <span class="n">break_points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">a</span><span class="p">])</span>
+                <span class="k">break</span>
+
+            <span class="n">r2_bounds_val</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="p">[</span><span class="n">a_</span><span class="p">]</span> <span class="ow">in</span> <span class="n">candidate_coord</span><span class="p">:</span>
+                <span class="n">coef_temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">a_</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">r2_bound</span><span class="p">,</span> <span class="n">reg_coef_bound</span><span class="p">,</span> <span class="n">coef_w_bound</span> <span class="o">=</span> <span class="n">opt</span><span class="p">(</span><span class="n">coef_temp</span><span class="p">)</span>
+                <span class="n">r2_bounds_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r2_bound</span><span class="p">)</span>
+
+            <span class="c1"># sort r2 from high to low</span>
+            <span class="n">highest_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">r2_bounds_val</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">iter_num</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># udpate the center coordiantes when the R2 in the neighborhood is higher</span>
+            <span class="k">if</span> <span class="n">r2_center</span> <span class="o">&lt;</span> <span class="n">r2_bounds_val</span><span class="p">[</span><span class="n">highest_index</span><span class="p">]:</span>
+                <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">candidate_coord</span><span class="p">[</span><span class="n">highest_index</span><span class="p">]</span>
+                <span class="n">coef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">a</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">coef_pi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_coef_pi</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span>
+                <span class="n">res_info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span> <span class="s1">&#39;r2_center&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">r2_bounds_val</span><span class="p">[</span><span class="n">highest_index</span><span class="p">],</span> <span class="mi">4</span><span class="p">)}</span>
+                <span class="c1"># print(&#39;update&#39;, res_info)</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res_info</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+        
+        <span class="n">coef_pi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_coef_pi</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span>
+        <span class="n">r2</span><span class="p">,</span> <span class="n">reg_coef_final</span><span class="p">,</span> <span class="n">coef_w_final</span> <span class="o">=</span> <span class="n">opt</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r2</span><span class="p">,</span> <span class="n">reg_coef_final</span><span class="p">,</span> <span class="n">coef_w_final</span>
+
+
+<span class="k">def</span> <span class="nf">recover_coef1</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;A0&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">]</span>
+    <span class="n">output_coef</span> <span class="o">=</span> <span class="s1">&#39;m_coef&#39;</span>
+
+    <span class="n">D_in</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mat</span><span class="p">(</span><span class="s1">&#39;1, 0, 0; 1, 0, -2; 0, 1, 0; 1, 0, -1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">D_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mat</span><span class="p">(</span><span class="s1">&#39;0;, 0; 1&#39;</span><span class="p">)</span>
+    <span class="n">dimension_info</span> <span class="o">=</span> <span class="p">[</span><span class="n">D_in</span><span class="p">,</span> <span class="n">D_out</span><span class="p">]</span>
+
+    <span class="n">basis1_in</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">basis2_in</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">basis_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">basis1_in</span><span class="p">,</span> <span class="n">basis2_in</span><span class="p">]</span>
+    
+    <span class="n">dimensionless_learning</span> <span class="o">=</span> <span class="n">DimensionlessLearning</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">,</span> <span class="n">input_list</span><span class="p">,</span> <span class="n">output_coef</span><span class="p">,</span> <span class="n">dimension_info</span><span class="p">,</span> <span class="n">basis_list</span><span class="p">)</span>
+    <span class="c1"># dimensionless_learning.check_dimension(coef=[0])</span>
+
+    <span class="c1"># pattern search</span>
+    <span class="n">r2</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">coef_w</span> <span class="o">=</span> <span class="n">dimensionless_learning</span><span class="o">.</span><span class="n">fit_pattern_search</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">r2</span> <span class="o">&gt;</span> <span class="mf">0.8</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;final r2&#39;</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">coef</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">coef_w</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">recover_coef1</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>final r2 0.9999994702111235 [ 1.  0.  0. -1.] [[-1.00155745]]
+final r2 0.9999994702111235 [ 1.  0.  0. -1.] [[-1.00155745]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="recover-k-c">
+<h2>Recover -k/c<a class="headerlink" href="#recover-k-c" title="Permalink to this headline">#</a></h2>
+<p>Dimension matrix for input parameters:
+<span class="math notranslate nohighlight">\(\begin{align}
+    D_{in}= \begin{bmatrix}
+           1, 1, 0, 1  \\
+           0, 0, 1, 0 \\
+           0, -2, 0, -1
+         \end{bmatrix}
+\end{align}\)</span></p>
+<p>Dimension matrix for output parameters:
+<span class="math notranslate nohighlight">\(\begin{align}
+    D_{out}= \begin{bmatrix}
+           0 \\
+           0 \\
+           -1
+         \end{bmatrix}
+\end{align}\)</span></p>
+<p>Solution space is:
+<span class="math notranslate nohighlight">\(\begin{align}
+    w &amp;= \begin{bmatrix}
+           1 \\
+           1 \\
+           0 \\
+           -2 
+         \end{bmatrix} * \gamma + 
+         \begin{bmatrix}
+           0 \\
+           1 \\
+           0 \\
+           -1 
+         \end{bmatrix}
+\end{align}\)</span></p>
+<p>The best basis coefficients are <span class="math notranslate nohighlight">\(\gamma=0\)</span>.</p>
+<p>The best solution <span class="math notranslate nohighlight">\(w^*\)</span> is
+<span class="math notranslate nohighlight">\(\begin{align}
+    w^* &amp;= \begin{bmatrix}
+           0 \\
+           1 \\
+           0 \\
+           -1
+         \end{bmatrix}
+\end{align}\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">recover_coef2</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;A0&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">]</span>
+    <span class="n">output_coef</span> <span class="o">=</span> <span class="s1">&#39;k_coef&#39;</span>
+
+    <span class="n">D_in</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mat</span><span class="p">(</span><span class="s1">&#39;1, 0, 0; 1, 0, -2; 0, 1, 0; 1, 0, -1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">D_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mat</span><span class="p">(</span><span class="s1">&#39;0;, 0; -1&#39;</span><span class="p">)</span>
+    <span class="n">dimension_info</span> <span class="o">=</span> <span class="p">[</span><span class="n">D_in</span><span class="p">,</span> <span class="n">D_out</span><span class="p">]</span>
+
+    <span class="n">basis1_in</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">basis2_in</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">basis_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">basis1_in</span><span class="p">,</span> <span class="n">basis2_in</span><span class="p">]</span>
+    
+    <span class="n">dimensionless_learning</span> <span class="o">=</span> <span class="n">DimensionlessLearning</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">,</span> <span class="n">input_list</span><span class="p">,</span> <span class="n">output_coef</span><span class="p">,</span> <span class="n">dimension_info</span><span class="p">,</span> <span class="n">basis_list</span><span class="p">)</span>
+    <span class="c1"># dimensionless_learning.check_dimension(coef=[0, 1])</span>
+
+    <span class="c1"># pattern search</span>
+    <span class="n">r2</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">coef_w</span> <span class="o">=</span> <span class="n">dimensionless_learning</span><span class="o">.</span><span class="n">fit_pattern_search</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">r2</span> <span class="o">&gt;</span> <span class="mf">0.8</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;final r2&#39;</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">coef</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">coef_w</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">recover_coef2</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>final r2 0.9999999469825553 [ 0.  1.  0. -1.] [[-1.0008227]]
+final r2 0.9999999469825553 [ 0.  1.  0. -1.] [[-1.0008227]]
+</pre></div>
+</div>
 </div>
 </div>
 </section>
