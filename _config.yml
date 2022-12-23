@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: PyDimension
-author: Xiaoyu Xie (Northwesern University, https://xiaoyuxie.top/)
+author: Xiaoyu Xie (Northwesern University, https://xiaoyuxie.top)
 logo: images/logo.png
 
 # Force re-execution of notebooks on each build.
