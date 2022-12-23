@@ -1,6 +1,6 @@
 # Welcome to PyDimension Documentation
 
-![Schematic](images/schematic.jpg)
+![Schematic](images/schematic.png)
 
 ## Table of contents
 ```{tableofcontents}
