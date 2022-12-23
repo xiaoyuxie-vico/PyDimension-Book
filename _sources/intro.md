@@ -1,4 +1,4 @@
-# Welcome to PyDimension Documentation
+# Welcome to PyDimension Documentation!
 
 ![Schematic](images/schematic.png)
 
