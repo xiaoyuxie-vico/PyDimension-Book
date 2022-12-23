@@ -17,6 +17,7 @@ from sklearn.linear_model import LinearRegression, Ridge, LassoCV
 from sklearn.metrics import r2_score
 from sympy.utilities.lambdify import lambdify
 
+sys.path.append(os.getcwd())
 from utils.PolyDiff import PolyDiffPoint
 from utils.SeqReg import SeqReg
 

@@ -36,6 +36,7 @@ from sklearn.linear_model import LinearRegression, Ridge, LassoCV
 from sklearn.metrics import r2_score
 from sympy.utilities.lambdify import lambdify
 
+sys.path.append(os.getcwd())
 from utils.PolyDiff import PolyDiffPoint
 from utils.SeqReg import SeqReg
 
@@ -46,12 +47,12 @@ np.set_printoptions(suppress=True)
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-Cell [0;32mIn[1], line 12[0m
-[1;32m      9[0m [38;5;28;01mfrom[39;00m [38;5;21;01msklearn[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmetrics[39;00m [38;5;28;01mimport[39;00m r2_score
+Cell [0;32mIn[1], line 13[0m
 [1;32m     10[0m [38;5;28;01mfrom[39;00m [38;5;21;01msympy[39;00m[38;5;21;01m.[39;00m[38;5;21;01mutilities[39;00m[38;5;21;01m.[39;00m[38;5;21;01mlambdify[39;00m [38;5;28;01mimport[39;00m lambdify
-[0;32m---> 12[0m [38;5;28;01mfrom[39;00m [38;5;21;01mutils[39;00m[38;5;21;01m.[39;00m[38;5;21;01mPolyDiff[39;00m [38;5;28;01mimport[39;00m PolyDiffPoint
-[1;32m     13[0m [38;5;28;01mfrom[39;00m [38;5;21;01mutils[39;00m[38;5;21;01m.[39;00m[38;5;21;01mSeqReg[39;00m [38;5;28;01mimport[39;00m SeqReg
-[1;32m     15[0m get_ipython()[38;5;241m.[39mrun_line_magic([38;5;124m'[39m[38;5;124mmatplotlib[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124minline[39m[38;5;124m'[39m)
+[1;32m     12[0m sys[38;5;241m.[39mpath[38;5;241m.[39mappend(os[38;5;241m.[39mgetcwd())
+[0;32m---> 13[0m [38;5;28;01mfrom[39;00m [38;5;21;01mutils[39;00m[38;5;21;01m.[39;00m[38;5;21;01mPolyDiff[39;00m [38;5;28;01mimport[39;00m PolyDiffPoint
+[1;32m     14[0m [38;5;28;01mfrom[39;00m [38;5;21;01mutils[39;00m[38;5;21;01m.[39;00m[38;5;21;01mSeqReg[39;00m [38;5;28;01mimport[39;00m SeqReg
+[1;32m     16[0m get_ipython()[38;5;241m.[39mrun_line_magic([38;5;124m'[39m[38;5;124mmatplotlib[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124minline[39m[38;5;124m'[39m)
 
 [0;31mModuleNotFoundError[0m: No module named 'utils.PolyDiff'
 ModuleNotFoundError: No module named 'utils.PolyDiff'
