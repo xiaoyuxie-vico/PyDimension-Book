@@ -2,19 +2,25 @@
 
 ![Schematic](images/schematic.png)
 
+## Overview of Dimensionless Learning
+
+Dimensionless learning combines fundamental physics principles with state-of-the-art machine learning techniques to solve scientific and engineering problems. By embedding the principle of dimensional invariance into a two-level machine learning scheme, it can automatically discover dominant dimensionless numbers and governing laws (scaling laws and differential equations) from noisy and scarce measurements. This approach allows us to reduce high-dimensional parameter spaces and simplify complex processes, while still retaining a physically interpretable and accurate representation of the system. The detailed advantages are shown bwlow:
+
+- **Dimension reduction**: 
+  - Dimensionless leanring can reduce a large number of parameters to a few dominant dimensionless numbers.
+- **Better interpretability**: 
+  - The identified dimensionless can be interpreted as the ratio of different forces, velocities, or energies, etc.
+  - Lower dimension also allow for qualitative and quantitative analysis of the systems of interest. 
+- **Works well in small dataset**: 
+  - By incorporating **fundamental physical knowledge** of dimensional invariance, the learning space is limited to a manageable size, which makes it possible to train well-performing models using scarce datasets.
+- **Better generalization**:
+  - Another benefit for embedding physical invariance is that the learned model have a better generalization in data with different materials and scales.
+
 ## Toturials
 **Tutorial 1** focuses on discovering scaling laws, while **Tutorial 2** covers the discovery of differential equations (ODEs/PDEs). For more information, please visit the tutorial that interests you.
 
 ```{tableofcontents}
 ```
-
-## Identify knowledge in different levels
-
-**Dimensionless learning** is designed to identify and extract scientific insights and patterns from data without being influenced by the scale or size of the input. This enables us to uncover universal scientific knowledge at three different levels:
-
-- **Dimensionless number** at the feature level
-- **Scaling law** at the algebraic equation level
-- **Governing equation** at the differential equation level
 
 ## Code
 You can find the code at [PyDimension](https://github.com/xiaoyuxie-vico/PyDimension).
