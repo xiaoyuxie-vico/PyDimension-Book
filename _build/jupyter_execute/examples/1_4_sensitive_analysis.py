@@ -25,7 +25,7 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 plt.rcParams["font.family"] = 'Arial'
 
 
-# # Helper functions
+# ## Helper functions
 
 # In[2]:
 
@@ -99,7 +99,7 @@ def plot(Si, xtick_labels):
     plt.tight_layout()
 
 
-# # Load keyhole dataset
+# ## Load keyhole dataset
 
 # In[3]:
 
@@ -109,7 +109,7 @@ df = pd.read_csv('../dataset/dataset_keyhole.csv')
 df.describe()
 
 
-# # Analysis for Ke
+# ## Analysis for Ke
 
 # In[4]:
 
@@ -141,7 +141,7 @@ xtick_labels = [r'$\eta P$', r'$\rho$', r'$T_l-T_0$', r'$\alpha$', r'$r_0$', r'$
 plot(Si, xtick_labels)
 
 
-# # Add one more parameter $T_v-T_l$
+# ## Add one more parameter $T_v-T_l$
 
 # In[6]:
 
@@ -172,7 +172,7 @@ xtick_labels = [r'$\eta P$', r'$V_s$', r'$r_0$', r'$\alpha$', r'$\rho$',
 plot(Si, xtick_labels)
 
 
-# # Add one more parameter $L_m$
+# ## Add one more parameter $L_m$
 
 # In[8]:
 
