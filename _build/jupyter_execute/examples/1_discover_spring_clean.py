@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Discover governing equation from spring-mass-damper systems!
+# # Example 1: Discover governing equation from spring-mass-damper systems!
 
 # In[1]:
 
