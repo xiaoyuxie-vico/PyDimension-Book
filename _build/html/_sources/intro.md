@@ -2,7 +2,7 @@
 
 ![Schematic](images/schematic.png)
 
-## Table of contents
+## Toturials
 **Tutorial 1** focuses on discovering scaling laws, while **Tutorial 2** covers the discovery of differential equations (ODEs/PDEs). For more information, please visit the tutorial that interests you.
 
 ```{tableofcontents}
@@ -40,3 +40,11 @@ This work was published at ***Nature Communications***. You can find the paper a
   publisher={Nature Publishing Group}，
 }
 ```
+
+# Contact
+
+This online documentation is being developed. If you have any questions, suggestions, or would like to contribute to or collaborate on this repository, please contact the developer:
+- Xiaoyu Xie
+- Northwestern University, Mechanical Engineering
+- xiaoyuxie2020@u.northwestern.edu
+- https://xiaoyuxie.top

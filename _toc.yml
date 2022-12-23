@@ -10,4 +10,3 @@ chapters:
 - file: examples/1_4_sensitive_analysis
 - file: examples/1_5_pattern_search
 - file: examples/2_1_discover_spring_clean
-- file: docs/Contact
