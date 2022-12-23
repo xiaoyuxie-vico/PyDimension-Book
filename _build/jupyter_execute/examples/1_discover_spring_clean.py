@@ -4,8 +4,22 @@
 # # Example 1: Discover governing equation from spring-mass-damper systems!
 
 # In this tutorial, we will go through an example to show how to combine dimensionless learning with SINDy to discover the governing equation in spring-mass-damper systems.
+# 
+# We consider an object with mass $m$ is suspended from a spring with an initial displacement $\delta$, a spring constant $k$, and a damping coefficient $c$. The schematic of a spring-mass-damper system is shown below:
 
 # ![Schematic](../images/spring-mass-damper.png)
+
+# We can express the above system mathematically. The governing equation is
+# 
+# $$
+# m\frac{d^2 x}{dt^2} + c\frac{dx}{dt} + kx = 0
+# $$
+# The spring has a initial displacement $x(t=0)=\delta$ and no initial velocity $\frac{dx}{dt}=0$.
+# 
+# To create a dataset, we will change $\delta$, $m$, $k$, and $c$ to obtain different time-varying curves.
+# 
+
+# ## Import python libraries
 
 # In[1]:
 
@@ -28,6 +42,8 @@ np.set_printoptions(suppress=True)
 
 
 # ## Helper functions
+
+# `SeqReg()` is a class to identify differential equations using sparse regression.
 
 # In[2]:
 
@@ -117,6 +133,8 @@ class SeqReg(object):
         return coef, X1, r2
 
 
+# `PolyDiffPoint()`is used to calculate derivatives using polynomial functions. 
+
 # In[3]:
 
 
@@ -181,6 +199,8 @@ data_old = dataset.solution()
 fig = plt.figure()
 plt.plot(data_old['t'], data_old['x'])
 
+
+# `FitEqu()` is used for generating and parsing the dataset, build the regression library, and identifying the best differential equations.
 
 # In[5]:
 
@@ -254,7 +274,7 @@ class FitEqu(object):
 
 def prepare_dataset(is_show=False):
     '''
-    prepare a sets of dataset
+    prepare a sets of dataset with different parameters
     '''
     data = []
     fit_equ = FitEqu()
@@ -283,7 +303,6 @@ def prepare_dataset(is_show=False):
         plt.tick_params(labelsize=14)
         plt.tight_layout()
         plt.show()
-        # plt.savefig('../results/pde_spring.png', dpi=300)
 
     df = pd.DataFrame(
         data, columns=['m', 'k', 'A0', 'c', 

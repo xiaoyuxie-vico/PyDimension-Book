@@ -327,6 +327,11 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-python-libraries">
+   Import python libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#helper-functions">
    Helper functions
   </a>
@@ -366,6 +371,11 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-python-libraries">
+   Import python libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#helper-functions">
    Helper functions
   </a>
@@ -398,7 +408,17 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="example-1-discover-governing-equation-from-spring-mass-damper-systems">
 <h1>Example 1: Discover governing equation from spring-mass-damper systems!<a class="headerlink" href="#example-1-discover-governing-equation-from-spring-mass-damper-systems" title="Permalink to this headline">#</a></h1>
 <p>In this tutorial, we will go through an example to show how to combine dimensionless learning with SINDy to discover the governing equation in spring-mass-damper systems.</p>
+<p>We consider an object with mass <span class="math notranslate nohighlight">\(m\)</span> is suspended from a spring with an initial displacement <span class="math notranslate nohighlight">\(\delta\)</span>, a spring constant <span class="math notranslate nohighlight">\(k\)</span>, and a damping coefficient <span class="math notranslate nohighlight">\(c\)</span>. The schematic of a spring-mass-damper system is shown below:</p>
 <p><img alt="Schematic" src="../_images/spring-mass-damper.png" /></p>
+<p>We can express the above system mathematically. The governing equation is</p>
+<div class="math notranslate nohighlight">
+\[
+m\frac{d^2 x}{dt^2} + c\frac{dx}{dt} + kx = 0
+\]</div>
+<p>The spring has a initial displacement <span class="math notranslate nohighlight">\(x(t=0)=\delta\)</span> and no initial velocity <span class="math notranslate nohighlight">\(\frac{dx}{dt}=0\)</span>.</p>
+<p>To create a dataset, we will change <span class="math notranslate nohighlight">\(\delta\)</span>, <span class="math notranslate nohighlight">\(m\)</span>, <span class="math notranslate nohighlight">\(k\)</span>, and <span class="math notranslate nohighlight">\(c\)</span> to obtain different time-varying curves.</p>
+<section id="import-python-libraries">
+<h2>Import python libraries<a class="headerlink" href="#import-python-libraries" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">copy</span>
@@ -420,8 +440,10 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+</section>
 <section id="helper-functions">
 <h2>Helper functions<a class="headerlink" href="#helper-functions" title="Permalink to this headline">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">SeqReg()</span></code> is a class to identify differential equations using sparse regression.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SeqReg</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -511,6 +533,7 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">PolyDiffPoint()</span></code>is used to calculate derivatives using polynomial functions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">PolyDiffPoint</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">diff</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -578,12 +601,13 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fb7f57e07d0&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f71704b9490&gt;]
 </pre></div>
 </div>
-<img alt="../_images/1_discover_spring_clean_8_1.png" src="../_images/1_discover_spring_clean_8_1.png" />
+<img alt="../_images/1_discover_spring_clean_12_1.png" src="../_images/1_discover_spring_clean_12_1.png" />
 </div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">FitEqu()</span></code> is used for generating and parsing the dataset, build the regression library, and identifying the best differential equations.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FitEqu</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -655,7 +679,7 @@ title="Print to PDF"
 
 <span class="k">def</span> <span class="nf">prepare_dataset</span><span class="p">(</span><span class="n">is_show</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    prepare a sets of dataset</span>
+<span class="sd">    prepare a sets of dataset with different parameters</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">fit_equ</span> <span class="o">=</span> <span class="n">FitEqu</span><span class="p">()</span>
@@ -684,7 +708,6 @@ title="Print to PDF"
         <span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-        <span class="c1"># plt.savefig(&#39;../results/pde_spring.png&#39;, dpi=300)</span>
 
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
         <span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;A0&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> 
@@ -709,7 +732,7 @@ title="Print to PDF"
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting r2 1.0
 </pre></div>
 </div>
-<img alt="../_images/1_discover_spring_clean_9_4.png" src="../_images/1_discover_spring_clean_9_4.png" />
+<img alt="../_images/1_discover_spring_clean_14_4.png" src="../_images/1_discover_spring_clean_14_4.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     m    k    A0      c   k_coef   m_coef  k_coef_err_per  c_coef_err_per
 0  1.0  1.0  0.10  0.100 -10.0086 -10.0170        0.000860        0.001700
 1  0.8  0.5  0.05  0.050 -10.0054 -16.0171        0.000540        0.001069
