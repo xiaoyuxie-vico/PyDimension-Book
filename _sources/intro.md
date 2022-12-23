@@ -1,11 +1,27 @@
-# Welcome to your Jupyter Book
+# Welcome to PyDimension Documentation
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
+![Schematic](images/schematic.jpg)
 
-Check out the content pages bundled with this sample book to see more.
-
+## Table of contents
 ```{tableofcontents}
 ```
+
+## Identify knowledge in different levels
+
+**Dimensionless learning** is designed to identify and extract scientific insights and patterns from data without being influenced by the scale or size of the input. This enables us to uncover universal scientific knowledge at three different levels:
+
+- **Dimensionless number** at the feature level
+- **Scaling law** at the algebraic equation level
+- **Governing equation** at the differential equation level
+
+## Code
+You can find the code at [PyDimension](https://github.com/xiaoyuxie-vico/PyDimension).
+
+## Paper
+
+This work was published at ***Nature Communications***. You can find the paper at [here](https://www.nature.com/articles/s41467-022-35084-w#Sec2).
+
+This online documentation is being developed. If you have any questions, suggestions, or would like to contribute to or collaborate on this repository, please contact:
+- Xiaoyu Xie
+- Northwestern University, Mechanical Engineering
+- xiaoyuxie2020@u.northwestern.edu
