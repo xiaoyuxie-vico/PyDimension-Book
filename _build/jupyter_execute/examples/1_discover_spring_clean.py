@@ -139,6 +139,8 @@ def PolyDiffPoint(u, x, deg=3, diff=1, index=None):
 
 
 # ## Dataset preparation
+# 
+# `SpringMassDataset()` is a class to generate simualtion data set.
 
 # In[4]:
 
@@ -169,7 +171,8 @@ class SpringMassDataset(object):
         info = {'t': t, 'x': x}
         df = pd.DataFrame(info)
         return df
-    
+
+# test the SpringMassDataset
 k, m, A0, c, et, Nt = 0.2, 0.2, 0.07, 0.02, 20, 1000
 dataset = SpringMassDataset(k, m, A0, c)
 data_old = dataset.solution()
