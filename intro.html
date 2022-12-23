@@ -326,13 +326,13 @@ title="Print to PDF"
   </a>
   <ul class="visible nav section-nav flex-column">
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#toturials">
-     Toturials
+    <a class="reference internal nav-link" href="#overview-of-dimensionless-learning">
+     Overview of Dimensionless Learning
     </a>
    </li>
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#identify-knowledge-in-different-levels">
-     Identify knowledge in different levels
+    <a class="reference internal nav-link" href="#toturials">
+     Toturials
     </a>
    </li>
    <li class="toc-h2 nav-item toc-entry">
@@ -382,13 +382,13 @@ title="Print to PDF"
   </a>
   <ul class="visible nav section-nav flex-column">
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#toturials">
-     Toturials
+    <a class="reference internal nav-link" href="#overview-of-dimensionless-learning">
+     Overview of Dimensionless Learning
     </a>
    </li>
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#identify-knowledge-in-different-levels">
-     Identify knowledge in different levels
+    <a class="reference internal nav-link" href="#toturials">
+     Toturials
     </a>
    </li>
    <li class="toc-h2 nav-item toc-entry">
@@ -426,6 +426,33 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="welcome-to-pydimension-documentation">
 <h1>Welcome to PyDimension Documentation!<a class="headerlink" href="#welcome-to-pydimension-documentation" title="Permalink to this headline">#</a></h1>
 <p><img alt="Schematic" src="_images/schematic.png" /></p>
+<section id="overview-of-dimensionless-learning">
+<h2>Overview of Dimensionless Learning<a class="headerlink" href="#overview-of-dimensionless-learning" title="Permalink to this headline">#</a></h2>
+<p>Dimensionless learning combines fundamental physics principles with state-of-the-art machine learning techniques to solve scientific and engineering problems. By embedding the principle of dimensional invariance into a two-level machine learning scheme, it can automatically discover dominant dimensionless numbers and governing laws (scaling laws and differential equations) from noisy and scarce measurements. This approach allows us to reduce high-dimensional parameter spaces and simplify complex processes, while still retaining a physically interpretable and accurate representation of the system. The detailed advantages are shown bwlow:</p>
+<ul class="simple">
+<li><p><strong>Dimension reduction</strong>:</p>
+<ul>
+<li><p>Dimensionless leanring can reduce a large number of parameters to a few dominant dimensionless numbers.</p></li>
+</ul>
+</li>
+<li><p><strong>Better interpretability</strong>:</p>
+<ul>
+<li><p>The identified dimensionless can be interpreted as the ratio of different forces, velocities, or energies, etc.</p></li>
+<li><p>Lower dimension also allow for qualitative and quantitative analysis of the systems of interest.</p></li>
+</ul>
+</li>
+<li><p><strong>Works well in small dataset</strong>:</p>
+<ul>
+<li><p>By incorporating <strong>fundamental physical knowledge</strong> of dimensional invariance, the learning space is limited to a manageable size, which makes it possible to train well-performing models using scarce datasets.</p></li>
+</ul>
+</li>
+<li><p><strong>Better generalization</strong>:</p>
+<ul>
+<li><p>Another benefit for embedding physical invariance is that the learned model have a better generalization in data with different materials and scales.</p></li>
+</ul>
+</li>
+</ul>
+</section>
 <section id="toturials">
 <h2>Toturials<a class="headerlink" href="#toturials" title="Permalink to this headline">#</a></h2>
 <p><strong>Tutorial 1</strong> focuses on discovering scaling laws, while <strong>Tutorial 2</strong> covers the discovery of differential equations (ODEs/PDEs). For more information, please visit the tutorial that interests you.</p>
@@ -439,15 +466,6 @@ title="Print to PDF"
 <li class="toctree-l1"><a class="reference internal" href="examples/2_1_discover_spring_clean.html">Tutorial 2.1: ODEs discovery in spring-mass-damper systems!</a></li>
 </ul>
 </div>
-</section>
-<section id="identify-knowledge-in-different-levels">
-<h2>Identify knowledge in different levels<a class="headerlink" href="#identify-knowledge-in-different-levels" title="Permalink to this headline">#</a></h2>
-<p><strong>Dimensionless learning</strong> is designed to identify and extract scientific insights and patterns from data without being influenced by the scale or size of the input. This enables us to uncover universal scientific knowledge at three different levels:</p>
-<ul class="simple">
-<li><p><strong>Dimensionless number</strong> at the feature level</p></li>
-<li><p><strong>Scaling law</strong> at the algebraic equation level</p></li>
-<li><p><strong>Governing equation</strong> at the differential equation level</p></li>
-</ul>
 </section>
 <section id="code">
 <h2>Code<a class="headerlink" href="#code" title="Permalink to this headline">#</a></h2>
