@@ -4,6 +4,10 @@
 format: jb-book
 root: intro
 chapters:
-- file: examples/1_1_discover_spring_clean
-- file: examples/2_1_cross_materials
+- file: examples/1_1_cross_materials
+- file: examples/1_2_cross_scales
+- file: examples/1_3_cross_validation_keyhole_example
+- file: examples/1_4_sensitive_analysis
+- file: examples/1_5_pattern_search
+- file: examples/2_1_discover_spring_clean
 - file: docs/Contact

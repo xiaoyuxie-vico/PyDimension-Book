@@ -1,0 +1,831 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Tutorial 1.5: Pattern search-based two level optimization &#8212; PyDimension</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tutorial 2.1: ODEs discovery in spring-mass-damper systems!" href="2_1_discover_spring_clean.html" />
+    <link rel="prev" title="Tutorial 1.4: Sensitivity analysis" href="1_4_sensitive_analysis.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">PyDimension</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to PyDimension Documentation!
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="1_1_cross_materials.html">
+   Tutorial 1.1: Cross material experiments
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="1_2_cross_scales.html">
+   Tutorial 1.2: Cross scales experiments for pip flow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="1_3_cross_validation_keyhole_example.html">
+   Tutorial 1.3: Cross validation to decide the polynomial order
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="1_4_sensitive_analysis.html">
+   Tutorial 1.4: Sensitivity analysis
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Tutorial 1.5: Pattern search-based two level optimization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2_1_discover_spring_clean.html">
+   Tutorial 2.1: ODEs discovery in spring-mass-damper systems!
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../docs/Contact.html">
+   Contact
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/xiaoyuxie-vico/PyDimension-Book/main?urlpath=tree/examples/1_5_pattern_search.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/xiaoyuxie-vico/PyDimension-Book/blob/main/examples/1_5_pattern_search.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/xiaoyuxie-vico/PyDimension-Book"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/xiaoyuxie-vico/PyDimension-Book/issues/new?title=Issue%20on%20page%20%2Fexamples/1_5_pattern_search.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/examples/1_5_pattern_search.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#helper-functions">
+   Helper functions
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Tutorial 1.5: Pattern search-based two level optimization</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#helper-functions">
+   Helper functions
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="tutorial-1-5-pattern-search-based-two-level-optimization">
+<h1>Tutorial 1.5: Pattern search-based two level optimization<a class="headerlink" href="#tutorial-1-5-pattern-search-based-two-level-optimization" title="Permalink to this headline">#</a></h1>
+<ul class="simple">
+<li><p><strong>Authors</strong>: Xiaoyu Xie</p></li>
+<li><p><strong>Contact</strong>: <a class="reference external" href="mailto:xiaoyuxie2020&#37;&#52;&#48;u&#46;northwestern&#46;edu">xiaoyuxie2020<span>&#64;</span>u<span>&#46;</span>northwestern<span>&#46;</span>edu</a></p></li>
+</ul>
+<p><a class="reference external" href="https://colab.research.google.com/github/xiaoyuxie-vico/PyDimension-Book/blob/main/examples/1_5_pattern_search.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>
+<a class="reference external" href="https://mybinder.org/v2/gh/xiaoyuxie-vico/PyDimension-Book/HEAD"><img alt="Binder" src="https://mybinder.org/badge_logo.svg" /></a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">ParameterGrid</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PolynomialFeatures</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">shuffle</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;font.family&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Arial&#39;</span>
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="helper-functions">
+<h2>Helper functions<a class="headerlink" href="#helper-functions" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Dataset</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Load and parse dataset</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_path</span><span class="p">,</span> <span class="n">input_list</span><span class="p">,</span> <span class="n">output_list</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataset_path</span> <span class="o">=</span> <span class="n">dataset_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_list</span> <span class="o">=</span> <span class="n">input_list</span><span class="p">,</span> <span class="n">output_list</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_dataset</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">df_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split_dataset</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_load_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;load dataset&#39;&#39;&#39;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset_path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
+    
+    <span class="k">def</span> <span class="nf">_split_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;randomly split dataset&#39;&#39;&#39;</span>
+        <span class="n">df_train</span><span class="p">,</span> <span class="n">df_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df_train</span><span class="p">,</span> <span class="n">df_test</span>
+
+    <span class="k">def</span> <span class="nf">parser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;load dataset using numpy&#39;&#39;&#39;</span>
+        <span class="n">X_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df_train</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">input_list</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">y_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df_train</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">output_list</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span>
+
+        <span class="n">X_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df_test</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">input_list</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">y_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df_test</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">output_list</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span>
+
+        <span class="c1"># shuffle</span>
+        <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span>
+
+
+<span class="n">dataset_path</span> <span class="o">=</span> <span class="s1">&#39;../dataset/dataset_keyhole.csv&#39;</span>
+<span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;etaP&#39;</span><span class="p">,</span> <span class="s1">&#39;Vs&#39;</span><span class="p">,</span> <span class="s1">&#39;r0&#39;</span><span class="p">,</span> <span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;rho&#39;</span><span class="p">,</span> <span class="s1">&#39;cp&#39;</span><span class="p">,</span> <span class="s1">&#39;Tl-T0&#39;</span><span class="p">]</span>
+<span class="n">output_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;e*&#39;</span><span class="p">]</span>
+
+<span class="n">data_loader</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">input_list</span><span class="p">,</span> <span class="n">output_list</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">parser</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(72, 7) (72,) (18, 7) (18,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DimensionlessLearning</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Indentify the explicit form one coefficient using dimensionless learning</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">scaling_mat</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DimensionlessLearning</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaling_mat</span> <span class="o">=</span> <span class="n">scaling_mat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basis_num</span> <span class="o">=</span> <span class="n">scaling_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">parse_power_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basis_coef</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        parse power index based on basis coefficients</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">power_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaling_mat</span><span class="p">,</span> <span class="n">basis_coef</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">power_index</span>
+
+    <span class="k">def</span> <span class="nf">scale_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">basis_coef</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        scale the the input data into a few dimensionless numbers</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">power_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_power_index</span><span class="p">(</span><span class="n">basis_coef</span><span class="p">)</span>
+        <span class="n">X_scaled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">power_index</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">X_scaled</span><span class="p">,</span> <span class="n">power_index</span>
+
+    <span class="k">def</span> <span class="nf">parse_feats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        prepare different degrees&#39; features</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">deg</span><span class="p">)</span>
+        <span class="n">X_poly</span> <span class="o">=</span> <span class="n">poly</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">X_poly</span>
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">power_index</span><span class="p">,</span> <span class="n">scaling_coef</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        based on learned basis coefficients and scaling coefficients to predict</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">X_scaled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">power_index</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">X_poly</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_feats</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">,</span> <span class="n">deg</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">X_poly</span><span class="p">,</span> <span class="n">scaling_coef</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pred</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;pattern_search&#39;</span><span class="p">,</span> <span class="n">init_point_num</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        fit the data</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">BASE</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">20</span>
+        <span class="n">r2</span><span class="p">,</span> <span class="n">basis_coef</span><span class="p">,</span> <span class="n">scaling_coef</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">init_point_num</span><span class="p">):</span>
+            <span class="n">seed</span> <span class="o">=</span> <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="n">seed</span> <span class="o">*</span> <span class="n">init_point_num</span><span class="p">)</span> <span class="o">%</span> <span class="n">BASE</span>
+
+            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;pattern_search&#39;</span><span class="p">:</span>
+                <span class="n">r2_temp</span><span class="p">,</span> <span class="n">basis_coef_temp</span><span class="p">,</span> <span class="n">scaling_coef_temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_pattern_search</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;gradient_descent&#39;</span><span class="p">:</span>
+                <span class="n">r2_temp</span><span class="p">,</span> <span class="n">basis_coef_temp</span><span class="p">,</span> <span class="n">scaling_coef_temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_gradient_descent</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;r2_temp, basis_coef_temp, scaling_coef_temp&#39;</span><span class="p">,</span> <span class="n">r2_temp</span><span class="p">,</span> <span class="n">basis_coef_temp</span><span class="p">,</span> <span class="n">scaling_coef_temp</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Error in the optimizaiton method&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">r2_temp</span> <span class="o">&lt;</span> <span class="n">r2</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">r2</span><span class="p">,</span> <span class="n">basis_coef</span><span class="p">,</span> <span class="n">scaling_coef</span> <span class="o">=</span> <span class="n">r2_temp</span><span class="p">,</span> <span class="n">basis_coef_temp</span><span class="p">,</span> <span class="n">scaling_coef_temp</span>
+
+        <span class="k">return</span> <span class="n">r2</span><span class="p">,</span> <span class="n">basis_coef</span><span class="p">,</span> <span class="n">scaling_coef</span>
+
+    <span class="k">def</span> <span class="nf">_opt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basis_coef</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        fit a linear regression</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># prepare polynomial features based on dimensionless numbers</span>
+        <span class="n">X_scaled</span><span class="p">,</span> <span class="n">power_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_input</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">basis_coef</span><span class="p">)</span>
+        <span class="n">X_poly</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_feats</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+
+        <span class="c1"># fit a polynomial</span>
+        <span class="n">reg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_poly</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_poly</span><span class="p">)</span>
+        <span class="n">r2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+        <span class="n">scaling_coef</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">coef_</span>
+
+        <span class="k">return</span> <span class="n">r2</span><span class="p">,</span> <span class="n">power_index</span><span class="p">,</span> <span class="n">scaling_coef</span>
+
+    <span class="k">def</span> <span class="nf">fit_pattern_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gamma0</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">grid_range</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">grid_interval</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">clip_threshold</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        pattern search-based optimization</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            gamma0 [float]: basis coefficient for the first basis vector;</span>
+<span class="sd">            max_iter [int]: the maximum iteration for pattern search;</span>
+<span class="sd">            grid_range [list of int]: the range for each basis coefficient;</span>
+<span class="sd">            grid_interval [float]: the grid interval for each basis coefficient;</span>
+<span class="sd">            clip_threshold [float]: if the R2 score for the initial point is lower than this threshold, break the loop;</span>
+<span class="sd">        Return:</span>
+<span class="sd">            r2 [float]: the final R2 score</span>
+<span class="sd">            power_index [array]: the power law index for one input dimensionless nunber</span>
+<span class="sd">            scaling_coef [array]: the scaling law coefficients</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">def</span> <span class="nf">_get_coordinates</span><span class="p">(</span><span class="n">basis_num</span><span class="p">,</span> <span class="n">basis_coef</span><span class="p">,</span> <span class="n">grid_interval</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            build a list to store all possible coordiantes</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="c1"># prepare grid</span>
+            <span class="n">param_grid</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">center_coord</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">coord_all</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">basis_num</span><span class="p">):</span>
+                <span class="n">gamma_value</span> <span class="o">=</span> <span class="n">basis_coef</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">param_grid</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;gamma</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">gamma_value</span><span class="o">-</span><span class="n">grid_interval</span><span class="p">,</span> <span class="n">gamma_value</span><span class="p">,</span> <span class="n">gamma_value</span><span class="o">+</span><span class="n">grid_interval</span><span class="p">]</span>
+                <span class="n">center_coord</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gamma_value</span><span class="p">)</span>
+            
+            <span class="c1"># build grid</span>
+            <span class="n">grid</span> <span class="o">=</span> <span class="n">ParameterGrid</span><span class="p">(</span><span class="n">param_grid</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">params</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">:</span>
+                <span class="n">coord</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">basis_num</span><span class="p">):</span>
+                    <span class="n">coord</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;gamma</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">coord</span> <span class="o">!=</span> <span class="n">center_coord</span><span class="p">:</span>
+                    <span class="n">coord_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">coord_all</span>
+
+        <span class="k">def</span> <span class="nf">_init_basis_coef</span><span class="p">(</span><span class="n">basis_num</span><span class="p">,</span> <span class="n">grid_range</span><span class="p">,</span> <span class="n">grid_interval</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            initialize basis coefficient</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="n">grid_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">grid_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">grid_range</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">grid_interval</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">basis_coef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">basis_num</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">basis_num</span><span class="p">):</span>
+                <span class="n">basis_coef</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">grid_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">grid_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">grid_num</span><span class="p">),</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># [-2, 2]</span>
+                <span class="c1"># basis_coef[i] = 1</span>
+            <span class="n">basis_coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">gamma0</span>
+            <span class="k">return</span> <span class="n">basis_coef</span>
+
+        <span class="c1"># initial basis coefficients</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="n">basis_coef</span> <span class="o">=</span> <span class="n">_init_basis_coef</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basis_num</span><span class="p">,</span> <span class="n">grid_range</span><span class="p">,</span> <span class="n">grid_interval</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">)</span>
+
+        <span class="c1"># randomly initialize different center points</span>
+        <span class="n">iter_num</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">iter_num</span> <span class="o">&lt;</span> <span class="n">max_iter</span><span class="p">:</span>
+            <span class="n">candidate_coord</span> <span class="o">=</span> <span class="n">_get_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basis_num</span><span class="p">,</span> <span class="n">basis_coef</span><span class="p">,</span> <span class="n">grid_interval</span><span class="p">)</span>
+            <span class="c1"># calculate the center point</span>
+            <span class="n">r2_center</span><span class="p">,</span> <span class="n">power_index_center</span><span class="p">,</span> <span class="n">scaling_coef_center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_opt</span><span class="p">(</span><span class="n">basis_coef</span><span class="p">)</span>
+            <span class="c1"># print(&#39;r2_center&#39;, round(r2_center, 4), &#39;power_index_center&#39;, [round(each, 2) for each in list(power_index_center.reshape(-1,))])</span>
+
+            <span class="c1"># break if the initial point has a low R2 score</span>
+            <span class="k">if</span> <span class="n">r2_center</span> <span class="o">&lt;</span> <span class="n">clip_threshold</span><span class="p">:</span>
+                <span class="k">break</span>
+            
+            <span class="c1"># calculate the neighboring points</span>
+            <span class="n">r2_bounds_val</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">gamma_list</span> <span class="ow">in</span> <span class="n">candidate_coord</span><span class="p">:</span>
+                <span class="n">basis_coef_temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gamma_list</span><span class="p">)</span>
+                <span class="n">r2_bound</span><span class="p">,</span> <span class="n">power_index_bound</span><span class="p">,</span> <span class="n">scaling_coef_bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_opt</span><span class="p">(</span><span class="n">basis_coef_temp</span><span class="p">)</span>
+                <span class="n">r2_bounds_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r2_bound</span><span class="p">)</span>
+
+            <span class="c1"># sort the R2 score for neighboring points from high to low</span>
+            <span class="n">highest_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">r2_bounds_val</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">iter_num</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># udpate the center coordiantes if the neighboring point has a higher R2 score</span>
+            <span class="k">if</span> <span class="n">r2_center</span> <span class="o">&lt;</span> <span class="n">r2_bounds_val</span><span class="p">[</span><span class="n">highest_index</span><span class="p">]:</span>
+                <span class="n">basis_coef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">candidate_coord</span><span class="p">[</span><span class="n">highest_index</span><span class="p">])</span>
+                <span class="n">power_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_power_index</span><span class="p">(</span><span class="n">basis_coef</span><span class="p">)</span>
+                <span class="c1"># res_info = {&#39;gamma_list&#39;: gamma_list, &#39;r2_center&#39;: round(r2_bounds_val[highest_index], 4)}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="c1"># calcualte the final R2 and coefficients</span>
+        <span class="n">r2</span><span class="p">,</span> <span class="n">power_index</span><span class="p">,</span> <span class="n">scaling_coef</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_opt</span><span class="p">(</span><span class="n">basis_coef</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">r2</span><span class="p">,</span> <span class="n">power_index</span><span class="p">,</span> <span class="n">scaling_coef</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_keyhole_example</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    keyhole problem</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1">################################### config ###################################</span>
+    <span class="n">dataset_path</span> <span class="o">=</span> <span class="s1">&#39;../dataset/dataset_keyhole.csv&#39;</span>
+    <span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;etaP&#39;</span><span class="p">,</span> <span class="s1">&#39;Vs&#39;</span><span class="p">,</span> <span class="s1">&#39;r0&#39;</span><span class="p">,</span> <span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;rho&#39;</span><span class="p">,</span> <span class="s1">&#39;cp&#39;</span><span class="p">,</span> <span class="s1">&#39;Tl-T0&#39;</span><span class="p">]</span>
+    <span class="n">output_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;e*&#39;</span><span class="p">]</span>
+    
+    <span class="c1"># dimension matrix</span>
+    <span class="n">D_in</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">3.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">D_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mf">1.</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="c1"># best weights for Ke: 0.5, 1, 1</span>
+    <span class="c1"># basis vectors in columns</span>
+    <span class="n">scaling_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]],</span>
+    <span class="p">)</span>
+    <span class="n">deg</span> <span class="o">=</span> <span class="mi">5</span>
+
+    <span class="c1">################################### dataset ########################################</span>
+    <span class="c1"># load, split, and shuffle the dataset</span>
+    <span class="n">data_loader</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">input_list</span><span class="p">,</span> <span class="n">output_list</span><span class="p">)</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">parser</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[Dataset] X_train: </span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">, y_train: </span><span class="si">{</span><span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[Dataset] X_test: </span><span class="si">{</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">, y_test: </span><span class="si">{</span><span class="n">y_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1">################################### training and testing ###########################</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;[Training]&#39;</span><span class="p">)</span>
+    <span class="n">dimensionless_learning</span> <span class="o">=</span> <span class="n">DimensionlessLearning</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">scaling_mat</span><span class="p">)</span>
+    <span class="n">r2</span><span class="p">,</span> <span class="n">power_index</span><span class="p">,</span> <span class="n">scaling_coef</span> <span class="o">=</span> <span class="n">dimensionless_learning</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Final r2: </span><span class="si">{</span><span class="n">r2</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, power_index: </span><span class="si">{</span><span class="n">power_index</span><span class="si">}</span><span class="s1">, scaling_coef: </span><span class="si">{</span><span class="n">scaling_coef</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">pred_train</span> <span class="o">=</span> <span class="n">dimensionless_learning</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">power_index</span><span class="p">,</span> <span class="n">scaling_coef</span><span class="p">,</span> <span class="n">deg</span><span class="p">)</span>
+    <span class="n">pred_test</span> <span class="o">=</span> <span class="n">dimensionless_learning</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">power_index</span><span class="p">,</span> <span class="n">scaling_coef</span><span class="p">,</span> <span class="n">deg</span><span class="p">)</span>
+
+    <span class="c1">################################### visualization ###################################</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;[Visualization]&#39;</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">pred_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training set&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">pred_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Test set&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;pattern_search&#39;</span>
+<span class="n">test_keyhole_example</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Dataset] X_train: (72, 7), y_train: (72,)
+[Dataset] X_test: (18, 7), y_test: (18,)
+[Training]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Final r2: 0.9841, power_index: [ 1.  -0.5 -1.5 -0.5 -1.  -1.  -1. ], scaling_coef: [-0.14717067  0.06325514  0.0038886  -0.00009134  0.00000091 -0.        ]
+[Visualization]
+</pre></div>
+</div>
+<img alt="../_images/1_5_pattern_search_6_2.png" src="../_images/1_5_pattern_search_6_2.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./examples"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="1_4_sensitive_analysis.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Tutorial 1.4: Sensitivity analysis</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="2_1_discover_spring_clean.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Tutorial 2.1: ODEs discovery in spring-mass-damper systems!</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Xiaoyu Xie (Northwesern University, https://xiaoyuxie.top)<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
