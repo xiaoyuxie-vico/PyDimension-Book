@@ -6,3 +6,4 @@ root: intro
 chapters:
 - file: examples/1_1_discover_spring_clean
 - file: examples/2_1_cross_materials
+- file: About
