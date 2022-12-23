@@ -4,6 +4,7 @@
 # # Example 1: Discover governing equation from spring-mass-damper systems!
 
 # [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/xiaoyuxie-vico/PyDimension-Book/blob/main/examples/1_1_discover_spring_clean.ipynb)
+# [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/xiaoyuxie-vico/PyDimension-Book/HEAD)
 
 # In this tutorial, we will go through an example to show how to combine dimensionless learning with SINDy to discover the governing equation in spring-mass-damper systems.
 # 

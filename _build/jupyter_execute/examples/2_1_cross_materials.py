@@ -4,6 +4,7 @@
 # # Example 2: Comparison of dimensionless learning with popular machine learning algorithms
 
 # [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/xiaoyuxie-vico/PyDimension-Book/blob/main/examples/2_1_cross_materials.ipynb)
+# [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/xiaoyuxie-vico/PyDimension-Book/HEAD)
 
 # ## Import libraries
 
