@@ -5,6 +5,8 @@
 
 # In this tutorial, we will go through an example to show how to combine dimensionless learning with SINDy to discover the governing equation in spring-mass-damper systems.
 
+# ![Schematic](../images/spring-mass-damper.png)
+
 # In[1]:
 
 
