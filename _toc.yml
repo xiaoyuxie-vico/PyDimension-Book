@@ -5,4 +5,4 @@ format: jb-book
 root: intro
 chapters:
 - file: notebooks
-# - file: examples/discover_spring_clean
+- file: discover_spring_clean
