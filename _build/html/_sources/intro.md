@@ -1,5 +1,6 @@
 # Welcome to PyDimension Documentation
 
+![Schematic](images/schematic.jpg)
 
 ## Table of contents
 ```{tableofcontents}
@@ -19,7 +20,6 @@ You can find the code at [PyDimension](https://github.com/xiaoyuxie-vico/PyDimen
 ## Paper
 
 This work was published at ***Nature Communications***. You can find the paper at [here](https://www.nature.com/articles/s41467-022-35084-w#Sec2).
-![Schematic](images/schematic.jpg)
 
 This online documentation is being developed. If you have any questions, suggestions, or would like to contribute to or collaborate on this repository, please contact:
 - Xiaoyu Xie

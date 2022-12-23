@@ -4,4 +4,5 @@
 format: jb-book
 root: intro
 chapters:
-- file: PyDimension/PDE_discovery/discover_spring_clean.ipynb
+- file: notebooks
+# - file: examples/discover_spring_clean
