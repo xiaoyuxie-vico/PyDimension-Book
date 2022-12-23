@@ -3,6 +3,8 @@
 ![Schematic](images/schematic.png)
 
 ## Table of contents
+**Tutorial 1** focuses on discovering scaling laws, while **Tutorial 2** covers the discovery of differential equations (ODEs/PDEs). For more information, please visit the tutorial that interests you.
+
 ```{tableofcontents}
 ```
 
