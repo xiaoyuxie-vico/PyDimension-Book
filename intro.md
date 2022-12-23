@@ -20,3 +20,21 @@ You can find the code at [PyDimension](https://github.com/xiaoyuxie-vico/PyDimen
 ## Paper
 
 This work was published at ***Nature Communications***. You can find the paper at [here](https://www.nature.com/articles/s41467-022-35084-w#Sec2).
+
+## Citation
+```
+@article{xie_data-driven_2022,
+  title = {Data-driven discovery of dimensionless numbers and governing laws from scarce measurements},
+  volume = {13},
+  url = {https://www.nature.com/articles/s41467-022-35084-w},
+  doi = {10.1038/s41467-022-35084-w},
+  number = {1},
+  urldate = {2022-12-08},
+  journal = {Nature Communications},
+  author = {Xie, Xiaoyu and Samaei, Arash and Guo, Jiachen and Liu, Wing Kam and Gan, Zhengtao},
+  month = dec,
+  year = {2022},
+  pages = {7562},
+  publisher={Nature Publishing Group}，
+}
+```
