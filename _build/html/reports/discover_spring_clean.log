@@ -37,7 +37,7 @@ np.set_printoptions(suppress=True)
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-[0;32m/var/folders/ms/kkb4mjg900s0bc0jk63w_0840000gn/T/ipykernel_7604/238771277.py[0m in [0;36m<module>[0;34m[0m
+[0;32m/var/folders/ms/kkb4mjg900s0bc0jk63w_0840000gn/T/ipykernel_8216/238771277.py[0m in [0;36m<module>[0;34m[0m
 [1;32m      9[0m [0;32mfrom[0m [0msklearn[0m[0;34m.[0m[0mmetrics[0m [0;32mimport[0m [0mr2_score[0m[0;34m[0m[0;34m[0m[0m
 [1;32m     10[0m [0;34m[0m[0m
 [0;32m---> 11[0;31m [0;32mfrom[0m [0mutils[0m[0;34m.[0m[0mPolyDiff[0m [0;32mimport[0m [0mPolyDiffPoint[0m[0;34m[0m[0;34m[0m[0m
