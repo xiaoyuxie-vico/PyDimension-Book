@@ -1,6 +1,8 @@
 # Related papers and contents
 
 ## Related papers
+- Xie, X., Samaei, A., Guo, J., Liu, W. K., & Gan, Z. (2022). Data-driven discovery of dimensionless numbers and governing laws from scarce measurements. Nature Communications, 13(1), 1-11.
+- Saha, S., Gan, Z., Cheng, L., Gao, J., Kafka, O. L., Xie, X., ... & Liu, W. K. (2021). Hierarchical deep learning neural network (HiDeNN): An artificial intelligence (AI) framework for computational science and engineering. Computer Methods in Applied Mechanics and Engineering, 373, 113452. (Dimensional invariant Neural Network (DimensionNet))
 - Bakarji, J., Callaham, J., Brunton, S. L., & Kutz, J. N. (2022). Dimensionally consistent learning with buckingham pi. arXiv preprint arXiv:2202.04643.
 - Floryan, D., & Graham, M. D. (2022). Data-driven discovery of intrinsic dynamics. Nature Machine Intelligence, 1-8.
 - Villar, S., Yao, W., Hogg, D. W., Blum-Smith, B., & Dumitrascu, B. (2022). Dimensionless machine learning: Imposing exact units equivariance. arXiv preprint arXiv:2204.00887.
