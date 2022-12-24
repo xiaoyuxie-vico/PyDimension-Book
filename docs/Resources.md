@@ -1,6 +1,6 @@
 # Related papers and contents
 
-If you are interested in learning about data-driven scientific discovery, there are some excellent papers and articles that you can use as a starting point. These resources, which can be found in top journals such as Science and Nature, will give you a strong foundation in data-driven scientific discovery and introduce you to the principles and techniques involved in using data to guide research and uncover new knowledge.
+If you are interested in learning about data-driven scientific discovery, there are some excellent papers and articles that you can use as a starting point. These resources, which can be found in top journals such as *Science* and *Nature*, will give you a strong foundation in data-driven scientific discovery and introduce you to the principles and techniques involved in using data to guide research and uncover new knowledge.
 
 ## Dimensional analysis + machine learning
 - **Dimensionless learning**: Xie, X., Samaei, A., Guo, J., Liu, W. K., & Gan, Z. (2022). Data-driven discovery of dimensionless numbers and governing laws from scarce measurements. *Nature Communications*, 13(1), 1-11.
