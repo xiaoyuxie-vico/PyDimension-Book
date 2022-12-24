@@ -1,6 +1,6 @@
 # Related papers and contents
 
-If you are interested in learning about data-driven scientific discovery, there are some excellent papers {cite:p}`perez2011python, saha2021hierarchical` and articles that you can use as a starting point. These resources can provide you with a strong foundation in this field and help you understand the principles and techniques involved in using data to drive scientific research and discovery.
+If you are interested in learning about data-driven scientific discovery, there are some excellent papers {cite:p}`xie2022data, saha2021hierarchical` and articles that you can use as a starting point. These resources can provide you with a strong foundation in this field and help you understand the principles and techniques involved in using data to drive scientific research and discovery.
 
 ```{bibliography}
 :style: unsrt
