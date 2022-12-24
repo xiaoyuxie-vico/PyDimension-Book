@@ -26,9 +26,10 @@ You can find the code at [PyDimension](https://github.com/xiaoyuxie-vico/PyDimen
 
 ## Paper
 
-This work was published at ***Nature Communications***. You can find the paper at [here](https://www.nature.com/articles/s41467-022-35084-w#Sec2).
+This work was published at ***Nature Communications*** on December 2022. You can find the paper at [here](https://www.nature.com/articles/s41467-022-35084-w#Sec2).
 
 ## Citation
+If you find the code helpful, please cite our paper.
 ```
 @article{xie_data-driven_2022,
   title = {Data-driven discovery of dimensionless numbers and governing laws from scarce measurements},
