@@ -9,4 +9,4 @@
 - Chen, Z., Liu, Y., & Sun, H. (2021). Physics-informed learning of governing equations from scarce data. Nature communications, 12(1), 1-13.
 
 ## 中文资源
-- [学习漫谈（28）：量纲分析是锐利武器——三谈学习真本事](https://blog.sciencenet.cn/blog-330732-437683.html)
+- [学习漫谈（28）：量纲分析是锐利武器 - 戴世强](https://blog.sciencenet.cn/blog-330732-437683.html)
