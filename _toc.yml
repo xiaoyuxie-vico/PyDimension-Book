@@ -11,6 +11,7 @@ parts:
     - file: examples/1_3_cross_validation_keyhole_example
     - file: examples/1_4_sensitive_analysis
     - file: examples/1_5_pattern_search
+    - file: examples/1_6_gradient_descent
     sections:
       - file: examples/1_5_pattern_search
   - caption: Tutorial 2. ODEs/PDEs discovery
