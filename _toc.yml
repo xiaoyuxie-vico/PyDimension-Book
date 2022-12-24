@@ -6,12 +6,12 @@ root: intro
 parts:
   - caption: Tutorial 1. Scaling law discovery
     chapters:
+    - file: examples/pattern_search
+    - file: examples/gradient_descent
     - file: examples/cross_materials
     - file: examples/cross_scales
     - file: examples/cross_validation_keyhole_example
     - file: examples/sensitive_analysis
-    - file: examples/pattern_search
-    - file: examples/gradient_descent
     sections:
       - file: examples/pattern_search
   - caption: Tutorial 2. ODEs/PDEs discovery
