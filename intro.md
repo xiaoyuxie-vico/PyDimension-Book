@@ -17,7 +17,6 @@ Dimensionless learning combines fundamental physics principles with state-of-the
   - Another benefit for embedding physical invariance is that the learned model have a better generalization in data with different materials and scales.
 
 ## Toturials
-**Tutorial 1** focuses on discovering scaling laws, while **Tutorial 2** covers the discovery of differential equations (ODEs/PDEs). For more information, please visit the tutorial that interests you.
 
 ```{tableofcontents}
 ```
