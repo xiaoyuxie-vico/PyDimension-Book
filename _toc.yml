@@ -16,3 +16,6 @@ parts:
   - caption: Tutorial 2. ODEs/PDEs discovery
     chapters:
     - file: examples/2_1_discover_spring_clean
+  - caption: Resources
+    chapters:
+    - file: docs/Resources
