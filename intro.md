@@ -47,7 +47,7 @@ This work was published at ***Nature Communications***. You can find the paper a
 }
 ```
 
-# Contact
+## Contact
 
 This online documentation is being developed. If you have any questions, suggestions, or would like to contribute to or collaborate on this repository, please contact the developer:
 - Xiaoyu Xie
