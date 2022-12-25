@@ -10,7 +10,6 @@ If you are interested in learning about data-driven scientific discovery, there 
 - **Dimensional homogeneity constrained gene expression programming (DHC-GEP)**: Ma, W., & Zhang, J. (2022). Dimensional homogeneity constrained gene expression programming for discovering governing equations from noisy and scarce data. arXiv preprint arXiv:2211.09679.
 - **AI Feynman**: Udrescu, S. M., & Tegmark, M. (2020). AI Feynman: A physics-inspired method for symbolic regression. *Science Advances*, 6(16), eaay2631.
 - Xu, Z., Zhang, X., Wang, S., & He, G. (2022). Artificial neural network based response surface for data-driven dimensional analysis. ***Journal of Computational Physics***, 459, 111145.
-- Floryan, D., & Graham, M. D. (2022). Data-driven discovery of intrinsic dynamics. ***Nature Machine Intelligence***, 1-8.
 
 ## Data-driven scientific discovery for PDEs
 - Chen, Z., Liu, Y., & Sun, H. (2021). Physics-informed learning of governing equations from scarce data. ***Nature communications***, 12(1), 1-13.
@@ -18,6 +17,7 @@ If you are interested in learning about data-driven scientific discovery, there 
 - Rudy, S. H., Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2017). Data-driven discovery of partial differential equations. ***Science advances***, 3(4), e1602614.
 - Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2016). Discovering governing equations from data by sparse identification of nonlinear dynamical systems. ***Proceedings of the national academy of sciences***, 113(15), 3932-3937.
 - Schmidt, M., & Lipson, H. (2009). Distilling free-form natural laws from experimental data. ***science***, 324(5923), 81-85.
+- Floryan, D., & Graham, M. D. (2022). Data-driven discovery of intrinsic dynamics. ***Nature Machine Intelligence***, 1-8.
 
 ## Articles
 - [AI4Science to empower the fifth paradigm of scientific discovery](https://www.microsoft.com/en-us/research/blog/ai4science-to-empower-the-fifth-paradigm-of-scientific-discovery/)
