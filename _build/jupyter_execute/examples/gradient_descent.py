@@ -14,16 +14,18 @@
 # In[1]:
 
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from numpy.linalg import matrix_rank
 from numpy.linalg import inv
 import pandas as pd
 import pysindy as ps
 import random
 from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
 from sklearn.metrics import r2_score
 from scipy.optimize import minimize
+random.seed(3)
 
 
 # ## Parametric space analysis
@@ -38,13 +40,13 @@ from scipy.optimize import minimize
 
 
 data = np.loadtxt(
-    open("../dataset/keyhole_data.csv","rb"),
+    open("../dataset/dataset_keyhole.csv","rb"),
     delimiter=',',
     skiprows=1,
-    usecols = (2,3,5,7,8,9,12,14)
+    usecols = (2, 3, 4, 7, 5, 6, 10, 12)
 )
-X = data[:,0:7]
-Y = data[:,7]
+X = data[:, :7]
+Y = data[:, 7]
 
 
 # ## Calculate dimension matrix
@@ -80,8 +82,8 @@ Y = data[:,7]
 # In[3]:
 
 
-D_in = np.mat('2,1,1,2,2,-3,0; -3,-1,0,-2,-1,0,0; 1,0,0,0,0,1,0;0,0,0,-1,0,0,1')
-D_out = np.mat('1;0;0;0')
+D_in = np.mat('2, 1, 1, 2, 2, -3, 0; -3, -1, 0, -2, -1, 0, 0; 1, 0, 0, 0, 0, 1, 0; 0, 0, 0, -1, 0, 0, 1')
+D_out = np.mat('1; 0; 0; 0')
 D_in_rank = matrix_rank(D_in)
 print(D_in_rank)
 
@@ -146,6 +148,9 @@ def objective(a, w):
     return np.square(pi2 - calc_y(a, w)).mean()
 
 def ploter(pi1, pi2, iteration):
+    '''
+    Visualization
+    '''
     fig = plt.figure()
     plt.scatter(pi1, pi2)
     plt.xlabel(r'$\Pi_1$', fontsize=16)
@@ -159,20 +164,17 @@ def ploter(pi1, pi2, iteration):
 # In[6]:
 
 
-from sklearn.preprocessing import PolynomialFeatures
-
-random.seed(3)
-
 niter = 3000
 ninital = 1
+degree = 5  # polynomial order
 
 a = np.zeros(2)
-w = np.zeros(6)
+w = np.zeros(degree + 1)
 
 global pi2
 pi2 = Y / X[:,2]
 
-poly = PolynomialFeatures(degree=5)
+poly = PolynomialFeatures(degree)
 
 for j in range(ninital):
     a[0] = 2 * random.random()
@@ -186,7 +188,7 @@ for j in range(ninital):
     model = LinearRegression(fit_intercept=False)
 
     for i in range(niter):
-        # update coefficient w for polynomials
+        # level 1: update coefficient w for polynomials
         pi1 = calc_pi(a)
         
         pi1_poly = poly.fit_transform(pi1.reshape(-1, 1))
@@ -199,14 +201,14 @@ for j in range(ninital):
         y_recover = calc_y(a, w)       
         r2 = r2_score(y_recover, pi2)
 
-        # update coefficient a for pi
+        # level 2: update coefficient a for pi
         solution = minimize(objective, a, method='BFGS', tol=1e-3, args=w, options={'maxiter':1})
         a = solution.x
         y_recover = calc_y(a, w)
         r2 = r2_score(y_recover, pi2) 
 
         a_history[i,:] = a
-        if i % int(niter // 5) == 0:
+        if i % int(niter // 3) == 0:
             # Note that the best coef in keyhole case is [0.5, 1, 1]
             # here we only optimize the last two coefficients
             print(f'Iteration: {i}, coef: {a}, Objective: {objective(a,w)}, r2: {r2}')
