@@ -52,7 +52,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Tutorial 2.1: ODEs discovery in spring-mass-damper systems!" href="../examples/2_1_discover_spring_clean.html" />
+    <link rel="prev" title="Tutorial 2.1: ODEs discovery in spring-mass-damper systems!" href="../examples/discover_spring_clean.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -119,28 +119,33 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../examples/1_1_cross_materials.html">
-   Tutorial 1.1: Cross material experiments
+  <a class="reference internal" href="../examples/pattern_search.html">
+   Tutorial 1.1: Pattern search-based two level optimization
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../examples/1_2_cross_scales.html">
-   Tutorial 1.2: Cross scales experiments for pip flow
+  <a class="reference internal" href="../examples/gradient_descent.html">
+   Tutorial 1.2: Gradient descent-based two level optimization
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../examples/1_3_cross_validation_keyhole_example.html">
-   Tutorial 1.3: Cross validation to decide the polynomial order
+  <a class="reference internal" href="../examples/cross_materials.html">
+   Tutorial 1.3: Cross material experiments
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../examples/1_4_sensitive_analysis.html">
-   Tutorial 1.4: Sensitivity analysis
+  <a class="reference internal" href="../examples/cross_scales.html">
+   Tutorial 1.4: Cross scales experiments for pip flow
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../examples/1_5_pattern_search.html">
-   Tutorial 1.5: Pattern search-based two level optimization
+  <a class="reference internal" href="../examples/cross_validation_keyhole_example.html">
+   Tutorial 1.5: Cross validation experiments
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/sensitive_analysis.html">
+   Tutorial 1.6: Sensitivity analysis
   </a>
  </li>
 </ul>
@@ -151,7 +156,7 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../examples/2_1_discover_spring_clean.html">
+  <a class="reference internal" href="../examples/discover_spring_clean.html">
    Tutorial 2.1: ODEs discovery in spring-mass-damper systems!
   </a>
  </li>
@@ -419,23 +424,24 @@ title="Print to PDF"
 <section id="dimensional-analysis-machine-learning">
 <h2>Dimensional analysis + machine learning<a class="headerlink" href="#dimensional-analysis-machine-learning" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
-<li><p><strong>Dimensionless learning</strong>: Xie, X., Samaei, A., Guo, J., Liu, W. K., &amp; Gan, Z. (2022). Data-driven discovery of dimensionless numbers and governing laws from scarce measurements. <em>Nature Communications</em>, 13(1), 1-11.</p></li>
-<li><p><strong>Dimensional invariant Neural Network (DimensionNet)</strong>: Saha, S., Gan, Z., Cheng, L., Gao, J., Kafka, O. L., Xie, X., … &amp; Liu, W. K. (2021). Hierarchical deep learning neural network (HiDeNN): An artificial intelligence (AI) framework for computational science and engineering. <em>Computer Methods in Applied Mechanics and Engineering</em>, 373, 113452.</p></li>
-<li><p><strong>BuckiNet</strong>: Bakarji, J., Callaham, J., Brunton, S. L., &amp; Kutz, J. N. (2022). Dimensionally consistent learning with buckingham pi. arXiv preprint arXiv:2202.04643.</p></li>
+<li><p><strong>Dimensionless learning</strong>: Xie, X., Samaei, A., Guo, J., Liu, W. K., &amp; Gan, Z. (2022). Data-driven discovery of dimensionless numbers and governing laws from scarce measurements. <em><strong>Nature Communications</strong></em>, 13(1), 1-11.</p></li>
+<li><p><strong>Dimensional invariant Neural Network (DimensionNet)</strong>: Saha, S., Gan, Z., Cheng, L., Gao, J., Kafka, O. L., Xie, X., … &amp; Liu, W. K. (2021). Hierarchical deep learning neural network (HiDeNN): An artificial intelligence (AI) framework for computational science and engineering. <em><strong>Computer Methods in Applied Mechanics and Engineering</strong></em>, 373, 113452.</p></li>
+<li><p><strong>BuckiNet</strong>: Bakarji, J., Callaham, J., Brunton, S.L. et al. Dimensionally consistent learning with Buckingham Pi. <em><strong>Nature Computational Science</strong></em>, 2, 834–844 (2022).</p></li>
 <li><p><strong>Dimensionless machine learning</strong>: Villar, S., Yao, W., Hogg, D. W., Blum-Smith, B., &amp; Dumitrascu, B. (2022). Dimensionless machine learning: Imposing exact units equivariance. arXiv preprint arXiv:2204.00887.</p></li>
 <li><p><strong>Dimensional homogeneity constrained gene expression programming (DHC-GEP)</strong>: Ma, W., &amp; Zhang, J. (2022). Dimensional homogeneity constrained gene expression programming for discovering governing equations from noisy and scarce data. arXiv preprint arXiv:2211.09679.</p></li>
 <li><p><strong>AI Feynman</strong>: Udrescu, S. M., &amp; Tegmark, M. (2020). AI Feynman: A physics-inspired method for symbolic regression. <em>Science Advances</em>, 6(16), eaay2631.</p></li>
-<li><p>Xu, Z., Zhang, X., Wang, S., &amp; He, G. (2022). Artificial neural network based response surface for data-driven dimensional analysis. <em>Journal of Computational Physics</em>, 459, 111145.</p></li>
+<li><p>Xu, Z., Zhang, X., Wang, S., &amp; He, G. (2022). Artificial neural network based response surface for data-driven dimensional analysis. <em><strong>Journal of Computational Physics</strong></em>, 459, 111145.</p></li>
+<li><p>Floryan, D., &amp; Graham, M. D. (2022). Data-driven discovery of intrinsic dynamics. <em><strong>Nature Machine Intelligence</strong></em>, 1-8.</p></li>
 </ul>
 </section>
 <section id="data-driven-scientific-discovery-for-pdes">
 <h2>Data-driven scientific discovery for PDEs<a class="headerlink" href="#data-driven-scientific-discovery-for-pdes" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
-<li><p>Chen, Z., Liu, Y., &amp; Sun, H. (2021). Physics-informed learning of governing equations from scarce data. <em>Nature communications</em>, 12(1), 1-13.</p></li>
-<li><p>Lusch, B., Kutz, J. N., &amp; Brunton, S. L. (2018). Deep learning for universal linear embeddings of nonlinear dynamics. <em>Nature communications</em>, 9(1), 1-10.</p></li>
-<li><p>Rudy, S. H., Brunton, S. L., Proctor, J. L., &amp; Kutz, J. N. (2017). Data-driven discovery of partial differential equations. <em>Science advances</em>, 3(4), e1602614.</p></li>
-<li><p>Brunton, S. L., Proctor, J. L., &amp; Kutz, J. N. (2016). Discovering governing equations from data by sparse identification of nonlinear dynamical systems. <em>Proceedings of the national academy of sciences</em>, 113(15), 3932-3937.</p></li>
-<li><p>Schmidt, M., &amp; Lipson, H. (2009). Distilling free-form natural laws from experimental data. <em>science</em>, 324(5923), 81-85.</p></li>
+<li><p>Chen, Z., Liu, Y., &amp; Sun, H. (2021). Physics-informed learning of governing equations from scarce data. <em><strong>Nature communications</strong></em>, 12(1), 1-13.</p></li>
+<li><p>Lusch, B., Kutz, J. N., &amp; Brunton, S. L. (2018). Deep learning for universal linear embeddings of nonlinear dynamics. <em><strong>Nature communications</strong></em>, 9(1), 1-10.</p></li>
+<li><p>Rudy, S. H., Brunton, S. L., Proctor, J. L., &amp; Kutz, J. N. (2017). Data-driven discovery of partial differential equations. <em><strong>Science advances</strong></em>, 3(4), e1602614.</p></li>
+<li><p>Brunton, S. L., Proctor, J. L., &amp; Kutz, J. N. (2016). Discovering governing equations from data by sparse identification of nonlinear dynamical systems. <em><strong>Proceedings of the national academy of sciences</strong></em>, 113(15), 3932-3937.</p></li>
+<li><p>Schmidt, M., &amp; Lipson, H. (2009). Distilling free-form natural laws from experimental data. <em><strong>science</strong></em>, 324(5923), 81-85.</p></li>
 </ul>
 </section>
 <section id="articles">
@@ -479,7 +485,7 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../examples/2_1_discover_spring_clean.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="../examples/discover_spring_clean.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
