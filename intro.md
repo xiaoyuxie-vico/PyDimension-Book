@@ -51,4 +51,4 @@ If you find the code helpful, please cite our paper.
 
 This online documentation is being developed. If you have any questions, suggestions, or would like to contribute to or collaborate on this repository, please contact the developer [Xiaoyu Xie](https://xiaoyuxie.top/) at Northwestern University via email xiaoyuxie2020@u.northwestern.edu.
 
-This work is supervised by [Prof. Wing Kam Liu](https://www.mccormick.northwestern.edu/research-faculty/directory/profiles/liu-kam-wing.html) at Northwestern University.
+This work is supervised by [Prof. Wing Kam Liu](https://www.mccormick.northwestern.edu/research-faculty/directory/profiles/liu-kam-wing.html), Walter P. Murphy Professor of Mechanical Engineering & Civil and Environmental Engineering, Northwestern University, Evanston, Illinois, USA.
