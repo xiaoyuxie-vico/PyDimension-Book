@@ -23,4 +23,5 @@ If you are interested in learning about data-driven scientific discovery, there 
 - [AI4Science to empower the fifth paradigm of scientific discovery](https://www.microsoft.com/en-us/research/blog/ai4science-to-empower-the-fifth-paradigm-of-scientific-discovery/)
 
 ## 中文资源
+- 集智俱乐部-[无量纲学习：机器学习识别无量纲数与标度律](https://swarma.org/?p=39420)
 - [学习漫谈（28）：量纲分析是锐利武器 - 戴世强](https://blog.sciencenet.cn/blog-330732-437683.html)
