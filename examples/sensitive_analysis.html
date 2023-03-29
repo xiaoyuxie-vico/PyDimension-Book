@@ -54,7 +54,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Tutorial 1.1: Pattern search-based two level optimization" href="pattern_search.html" />
+    <link rel="next" title="Tutorial 2.1: ODEs discovery in spring-mass-damper systems!" href="discover_spring_clean.html" />
     <link rel="prev" title="Tutorial 1.5: Cross validation experiments" href="cross_validation_keyhole_example.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -122,6 +122,16 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="pattern_search.html">
+   Tutorial 1.1: Pattern search-based two level optimization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="gradient_descent.html">
+   Tutorial 1.2: Gradient descent-based two level optimization
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="cross_materials.html">
    Tutorial 1.3: Cross material experiments
   </a>
@@ -139,16 +149,6 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Tutorial 1.6: Sensitivity analysis
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="pattern_search.html">
-   Tutorial 1.1: Pattern search-based two level optimization
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="gradient_descent.html">
-   Tutorial 1.2: Gradient descent-based two level optimization
   </a>
  </li>
 </ul>
@@ -510,7 +510,16 @@ title="Print to PDF"
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
 <span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;font.family&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Arial&#39;</span>
+<span class="c1"># plt.rcParams[&quot;font.family&quot;] = &#39;Arial&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # please uncomment these two lines, if you run this code in Colab</span>
+<span class="c1"># !git clone https://github.com/xiaoyuxie-vico/PyDimension-Book</span>
+<span class="c1"># %cd PyDimension-Book/examples</span>
 </pre></div>
 </div>
 </div>
@@ -793,49 +802,49 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(16384,)
-             ST   ST_conf
-etaP   0.468911  0.054061
-Vs     0.075444  0.010238
-r0     0.086941  0.011608
-alpha  0.137722  0.017856
-rho    0.194494  0.025657
-cp     0.026777  0.003547
-Tl-T0  0.160593  0.019195
-             S1   S1_conf
-etaP   0.379400  0.055239
-Vs     0.058095  0.027849
-r0     0.061965  0.026524
-alpha  0.110631  0.030372
-rho    0.144342  0.043542
-cp     0.018855  0.015319
-Tl-T0  0.128264  0.038463
-                      S2   S2_conf
-(etaP, Vs)      0.008929  0.070262
-(etaP, r0)      0.014155  0.069658
-(etaP, alpha)   0.010734  0.071517
-(etaP, rho)     0.042107  0.076452
-(etaP, cp)      0.003964  0.066183
-(etaP, Tl-T0)   0.018733  0.072552
-(Vs, r0)       -0.003869  0.044272
-(Vs, alpha)    -0.006055  0.047270
-(Vs, rho)       0.000813  0.045121
-(Vs, cp)       -0.007282  0.043091
-(Vs, Tl-T0)    -0.000395  0.045572
-(r0, alpha)     0.003093  0.043343
-(r0, rho)      -0.001922  0.043630
-(r0, cp)        0.002067  0.041154
-(r0, Tl-T0)     0.001900  0.045178
-(alpha, rho)   -0.000030  0.057097
-(alpha, cp)    -0.015239  0.049052
-(alpha, Tl-T0) -0.006766  0.054959
-(rho, cp)       0.000069  0.071696
-(rho, Tl-T0)   -0.008466  0.071449
-(cp, Tl-T0)    -0.002182  0.029170
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_13504/3367990274.py:32: DeprecationWarning: `salib.sample.saltelli` will be removed in SALib 1.5. Please use `salib.sample.sobol`
+  X_sampled = saltelli.sample(problem, sample_num, calc_second_order=True)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_27587/3367990274.py:32: DeprecationWarning: `salib.sample.saltelli` will be removed in SALib 1.5. Please use `salib.sample.sobol`
-  X_sampled = saltelli.sample(problem, sample_num, calc_second_order=True)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(16384,)
+             ST   ST_conf
+etaP   0.468911  0.056928
+Vs     0.075444  0.009698
+r0     0.086941  0.012552
+alpha  0.137722  0.016489
+rho    0.194494  0.022837
+cp     0.026777  0.003598
+Tl-T0  0.160593  0.020186
+             S1   S1_conf
+etaP   0.379400  0.055575
+Vs     0.058095  0.027235
+r0     0.061965  0.025987
+alpha  0.110631  0.031598
+rho    0.144342  0.048481
+cp     0.018855  0.014861
+Tl-T0  0.128264  0.035198
+                      S2   S2_conf
+(etaP, Vs)      0.008929  0.067780
+(etaP, r0)      0.014155  0.063702
+(etaP, alpha)   0.010734  0.071605
+(etaP, rho)     0.042107  0.080435
+(etaP, cp)      0.003964  0.064910
+(etaP, Tl-T0)   0.018733  0.075123
+(Vs, r0)       -0.003869  0.042091
+(Vs, alpha)    -0.006055  0.041836
+(Vs, rho)       0.000813  0.042304
+(Vs, cp)       -0.007282  0.037941
+(Vs, Tl-T0)    -0.000395  0.044344
+(r0, alpha)     0.003093  0.046061
+(r0, rho)      -0.001922  0.041634
+(r0, cp)        0.002067  0.040927
+(r0, Tl-T0)     0.001900  0.045898
+(alpha, rho)   -0.000030  0.058705
+(alpha, cp)    -0.015239  0.056413
+(alpha, Tl-T0) -0.006766  0.067627
+(rho, cp)       0.000069  0.071825
+(rho, Tl-T0)   -0.008466  0.075186
+(cp, Tl-T0)    -0.002182  0.022952
 </pre></div>
 </div>
 </div>
@@ -850,7 +859,7 @@ Tl-T0  0.128264  0.038463
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/sensitive_analysis_9_0.png" src="../_images/sensitive_analysis_9_0.png" />
+<img alt="../_images/sensitive_analysis_10_0.png" src="../_images/sensitive_analysis_10_0.png" />
 </div>
 </div>
 </section>
@@ -878,60 +887,58 @@ Tl-T0  0.128264  0.038463
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_27587/3367990274.py:32: DeprecationWarning: `salib.sample.saltelli` will be removed in SALib 1.5. Please use `salib.sample.sobol`
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_13504/3367990274.py:32: DeprecationWarning: `salib.sample.saltelli` will be removed in SALib 1.5. Please use `salib.sample.sobol`
   X_sampled = saltelli.sample(problem, sample_num, calc_second_order=True)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(18432,)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>             ST   ST_conf
-etaP   0.435631  0.123940
-Vs     0.102755  0.028056
-r0     0.101415  0.032853
-alpha  0.216431  0.067745
-rho    0.243284  0.091100
-cp     0.029825  0.008036
-Tl-T0  0.154469  0.097640
-Tv-T0  0.001798  0.001111
+             ST   ST_conf
+etaP   0.435631  0.134623
+Vs     0.102755  0.021786
+r0     0.101415  0.031282
+alpha  0.216431  0.056151
+rho    0.243284  0.091602
+cp     0.029825  0.006825
+Tl-T0  0.154469  0.084950
+Tv-T0  0.001798  0.001092
              S1   S1_conf
-etaP   0.293056  0.071177
-Vs     0.058431  0.028404
-r0     0.060356  0.030756
-alpha  0.111009  0.044131
-rho    0.143368  0.043684
-cp     0.017399  0.012532
-Tl-T0  0.059561  0.031875
-Tv-T0  0.000351  0.002532
+etaP   0.293056  0.077243
+Vs     0.058431  0.028659
+r0     0.060356  0.031793
+alpha  0.111009  0.041541
+rho    0.143368  0.047292
+cp     0.017399  0.011495
+Tl-T0  0.059561  0.027110
+Tv-T0  0.000351  0.003124
                       S2   S2_conf
-(etaP, Vs)      0.001401  0.080326
-(etaP, r0)     -0.004557  0.073214
-(etaP, alpha)   0.022270  0.094477
-(etaP, rho)     0.009413  0.086092
-(etaP, cp)     -0.011741  0.074015
-(etaP, Tl-T0)   0.010808  0.089669
-(etaP, Tv-T0)  -0.008894  0.075659
-(Vs, r0)       -0.008851  0.047758
-(Vs, alpha)    -0.008343  0.062932
-(Vs, rho)      -0.010061  0.054847
-(Vs, cp)       -0.009823  0.043964
-(Vs, Tl-T0)    -0.006326  0.057089
-(Vs, Tv-T0)    -0.009010  0.043945
-(r0, alpha)    -0.013241  0.057678
-(r0, rho)       0.000213  0.058937
-(r0, cp)       -0.009465  0.047624
-(r0, Tl-T0)    -0.001906  0.068565
-(r0, Tv-T0)    -0.009262  0.049521
-(alpha, rho)    0.012296  0.120035
-(alpha, cp)    -0.010145  0.084594
-(alpha, Tl-T0) -0.018565  0.089203
-(alpha, Tv-T0) -0.006149  0.088464
-(rho, cp)      -0.022207  0.068381
-(rho, Tl-T0)   -0.009719  0.070138
-(rho, Tv-T0)   -0.025940  0.064638
-(cp, Tl-T0)     0.000179  0.024078
-(cp, Tv-T0)    -0.003383  0.020083
-(Tl-T0, Tv-T0) -0.000089  0.065090
+(etaP, Vs)      0.001401  0.065627
+(etaP, r0)     -0.004557  0.060997
+(etaP, alpha)   0.022270  0.071110
+(etaP, rho)     0.009413  0.072088
+(etaP, cp)     -0.011741  0.059219
+(etaP, Tl-T0)   0.010808  0.076470
+(etaP, Tv-T0)  -0.008894  0.062713
+(Vs, r0)       -0.008851  0.053176
+(Vs, alpha)    -0.008343  0.065172
+(Vs, rho)      -0.010061  0.057539
+(Vs, cp)       -0.009823  0.045981
+(Vs, Tl-T0)    -0.006326  0.058689
+(Vs, Tv-T0)    -0.009010  0.046571
+(r0, alpha)    -0.013241  0.056398
+(r0, rho)       0.000213  0.060594
+(r0, cp)       -0.009465  0.048972
+(r0, Tl-T0)    -0.001906  0.067778
+(r0, Tv-T0)    -0.009262  0.050348
+(alpha, rho)    0.012296  0.112398
+(alpha, cp)    -0.010145  0.079179
+(alpha, Tl-T0) -0.018565  0.086098
+(alpha, Tv-T0) -0.006149  0.081406
+(rho, cp)      -0.022207  0.067328
+(rho, Tl-T0)   -0.009719  0.067188
+(rho, Tv-T0)   -0.025940  0.065952
+(cp, Tl-T0)     0.000179  0.021150
+(cp, Tv-T0)    -0.003383  0.017706
+(Tl-T0, Tv-T0) -0.000089  0.056270
 </pre></div>
 </div>
 </div>
@@ -945,7 +952,7 @@ Tv-T0  0.000351  0.002532
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/sensitive_analysis_12_0.png" src="../_images/sensitive_analysis_12_0.png" />
+<img alt="../_images/sensitive_analysis_13_0.png" src="../_images/sensitive_analysis_13_0.png" />
 </div>
 </div>
 </section>
@@ -973,7 +980,7 @@ Tv-T0  0.000351  0.002532
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_27587/3367990274.py:32: DeprecationWarning: `salib.sample.saltelli` will be removed in SALib 1.5. Please use `salib.sample.sobol`
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_13504/3367990274.py:32: DeprecationWarning: `salib.sample.saltelli` will be removed in SALib 1.5. Please use `salib.sample.sobol`
   X_sampled = saltelli.sample(problem, sample_num, calc_second_order=True)
 </pre></div>
 </div>
@@ -981,52 +988,52 @@ Tv-T0  0.000351  0.002532
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>             ST   ST_conf
-etaP   0.407922  0.154236
-Vs     0.114861  0.044147
-r0     0.109062  0.047158
-alpha  0.253861  0.112768
-rho    0.295320  0.183995
-cp     0.018771  0.007959
-Tl-T0  0.216055  0.186339
-Lm     0.005355  0.004001
+etaP   0.407922  0.180610
+Vs     0.114861  0.041372
+r0     0.109062  0.049810
+alpha  0.253861  0.115523
+rho    0.295320  0.216713
+cp     0.018771  0.008362
+Tl-T0  0.216055  0.212208
+Lm     0.005355  0.004654
              S1   S1_conf
-etaP   0.246249  0.082206
-Vs     0.053234  0.025430
-r0     0.051079  0.028301
-alpha  0.101483  0.043392
-rho    0.127977  0.052208
-cp     0.008455  0.008043
-Tl-T0  0.051638  0.029072
-Lm     0.000703  0.003418
+etaP   0.246249  0.092355
+Vs     0.053234  0.026338
+r0     0.051079  0.030485
+alpha  0.101483  0.046561
+rho    0.127977  0.058670
+cp     0.008455  0.008518
+Tl-T0  0.051638  0.028429
+Lm     0.000703  0.003790
                       S2   S2_conf
-(etaP, Vs)     -0.001122  0.051414
-(etaP, r0)     -0.008193  0.052835
-(etaP, alpha)   0.019447  0.066578
-(etaP, rho)     0.006793  0.070364
-(etaP, cp)     -0.014905  0.048166
-(etaP, Tl-T0)   0.011559  0.061936
-(etaP, Lm)     -0.010896  0.049577
-(Vs, r0)       -0.011737  0.050561
-(Vs, alpha)    -0.012059  0.070878
-(Vs, rho)      -0.014467  0.054186
-(Vs, cp)       -0.012331  0.045063
-(Vs, Tl-T0)    -0.009250  0.058709
-(Vs, Lm)       -0.011251  0.045628
-(r0, alpha)    -0.008149  0.054853
-(r0, rho)       0.008530  0.059364
-(r0, cp)       -0.004924  0.043128
-(r0, Tl-T0)     0.006490  0.071066
-(r0, Lm)       -0.003403  0.045739
-(alpha, rho)    0.024897  0.145482
-(alpha, cp)    -0.007572  0.090654
-(alpha, Tl-T0) -0.015623  0.099385
-(alpha, Lm)    -0.002525  0.094371
-(rho, cp)      -0.023625  0.069830
-(rho, Tl-T0)   -0.006633  0.070410
-(rho, Lm)      -0.025646  0.069844
-(cp, Tl-T0)     0.000633  0.015773
-(cp, Lm)       -0.002598  0.011753
-(Tl-T0, Lm)     0.005331  0.067540
+(etaP, Vs)     -0.001122  0.056589
+(etaP, r0)     -0.008193  0.054476
+(etaP, alpha)   0.019447  0.076453
+(etaP, rho)     0.006793  0.067423
+(etaP, cp)     -0.014905  0.057506
+(etaP, Tl-T0)   0.011559  0.081713
+(etaP, Lm)     -0.010896  0.059814
+(Vs, r0)       -0.011737  0.052146
+(Vs, alpha)    -0.012059  0.071268
+(Vs, rho)      -0.014467  0.058041
+(Vs, cp)       -0.012331  0.047543
+(Vs, Tl-T0)    -0.009250  0.061771
+(Vs, Lm)       -0.011251  0.047606
+(r0, alpha)    -0.008149  0.055715
+(r0, rho)       0.008530  0.057541
+(r0, cp)       -0.004924  0.043989
+(r0, Tl-T0)     0.006490  0.076907
+(r0, Lm)       -0.003403  0.046154
+(alpha, rho)    0.024897  0.153146
+(alpha, cp)    -0.007572  0.093530
+(alpha, Tl-T0) -0.015623  0.096744
+(alpha, Lm)    -0.002525  0.097367
+(rho, cp)      -0.023625  0.077814
+(rho, Tl-T0)   -0.006633  0.078949
+(rho, Lm)      -0.025646  0.076982
+(cp, Tl-T0)     0.000633  0.016145
+(cp, Lm)       -0.002598  0.013373
+(Tl-T0, Lm)     0.005331  0.081760
 </pre></div>
 </div>
 </div>
@@ -1040,7 +1047,7 @@ Lm     0.000703  0.003418
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/sensitive_analysis_15_0.png" src="../_images/sensitive_analysis_15_0.png" />
+<img alt="../_images/sensitive_analysis_16_0.png" src="../_images/sensitive_analysis_16_0.png" />
 </div>
 </div>
 </section>
@@ -1080,10 +1087,10 @@ Lm     0.000703  0.003418
             <p class="prev-next-title">Tutorial 1.5: Cross validation experiments</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="pattern_search.html" title="next page">
+    <a class='right-next' id="next-link" href="discover_spring_clean.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Tutorial 1.1: Pattern search-based two level optimization</p>
+        <p class="prev-next-title">Tutorial 2.1: ODEs discovery in spring-mass-damper systems!</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
