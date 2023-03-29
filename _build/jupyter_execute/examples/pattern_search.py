@@ -25,7 +25,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.utils import shuffle
 
 get_ipython().run_line_magic('matplotlib', 'inline')
-plt.rcParams["font.family"] = 'Arial'
+# plt.rcParams["font.family"] = 'Arial'
 np.set_printoptions(suppress=True)
 
 
@@ -34,7 +34,7 @@ np.set_printoptions(suppress=True)
 
 # # please uncomment these two lines, if you run this code in Colab
 # !git clone https://github.com/xiaoyuxie-vico/PyDimension-Book
-# !cd PyDimension-Book/examples
+# %cd PyDimension-Book/examples
 
 
 # ## Helper functions
