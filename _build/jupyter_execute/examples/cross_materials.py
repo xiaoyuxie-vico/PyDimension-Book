@@ -40,11 +40,19 @@ import warnings
 
 warnings.filterwarnings("ignore")
 get_ipython().run_line_magic('matplotlib', 'inline')
-plt.rcParams["font.family"] = 'Arial'
+# plt.rcParams["font.family"] = 'Arial'
 np.set_printoptions(suppress=True)
 
 
 # In[2]:
+
+
+# # please uncomment these two lines, if you run this code in Colab
+# !git clone https://github.com/xiaoyuxie-vico/PyDimension-Book
+# %cd PyDimension-Book/examples
+
+
+# In[3]:
 
 
 class DimensionlessLearning(object):
@@ -196,7 +204,7 @@ class DimensionlessLearning(object):
         return r2, basis_coef, reg_coef, coef_w
 
 
-# In[3]:
+# In[4]:
 
 
 # load dataset
@@ -222,7 +230,7 @@ data_test = np.concatenate([X_train_val, y_train_val.reshape(-1, 1)], axis=1)
 print(f'[Dataset] X_train: {data_train_val.shape}, X_test: {data_test.shape}')
 
 
-# In[4]:
+# In[5]:
 
 
 # Dimensionless learning
@@ -289,7 +297,7 @@ df_dimension = pd.DataFrame(np.array([model_name_list, r2_train_list, r2_val_lis
 print(df_dimension)
 
 
-# In[5]:
+# In[6]:
 
 
 fig = plt.figure()
@@ -297,7 +305,7 @@ ax = sns.scatterplot(data=df, x='Ke', y='e*', hue='source')
 ax.legend(fontsize=16); ax.set_xlabel('Ke', fontsize=18); ax.set_ylabel('e*', fontsize=18)
 
 
-# In[6]:
+# In[7]:
 
 
 # load dataset
@@ -323,7 +331,7 @@ data_test = np.concatenate([X_train_val, y_train_val.reshape(-1, 1)], axis=1)
 print(f'[Dataset] X_train: {data_train_val.shape}, X_test: {data_test.shape}')
 
 
-# In[7]:
+# In[8]:
 
 
 # normalization
@@ -336,7 +344,7 @@ y_train_val = y_train_val * 1e5
 y_test = y_test * 1e5
 
 
-# In[8]:
+# In[9]:
 
 
 def train_eval(model_name, para_grids):
@@ -369,7 +377,7 @@ def train_eval(model_name, para_grids):
     return df
 
 
-# In[9]:
+# In[10]:
 
 
 # key: model_name, value: para_grids
@@ -401,7 +409,7 @@ configs = {
 }
 
 
-# In[10]:
+# In[11]:
 
 
 # combine different models' results

@@ -55,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Related papers and contents" href="../docs/Resources.html" />
-    <link rel="prev" title="Tutorial 1.2: Gradient descent-based two level optimization" href="gradient_descent.html" />
+    <link rel="prev" title="Tutorial 1.6: Sensitivity analysis" href="sensitive_analysis.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -122,6 +122,16 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="pattern_search.html">
+   Tutorial 1.1: Pattern search-based two level optimization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="gradient_descent.html">
+   Tutorial 1.2: Gradient descent-based two level optimization
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="cross_materials.html">
    Tutorial 1.3: Cross material experiments
   </a>
@@ -139,16 +149,6 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="sensitive_analysis.html">
    Tutorial 1.6: Sensitivity analysis
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="pattern_search.html">
-   Tutorial 1.1: Pattern search-based two level optimization
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="gradient_descent.html">
-   Tutorial 1.2: Gradient descent-based two level optimization
   </a>
  </li>
 </ul>
@@ -519,6 +519,15 @@ m\frac{d^2 x}{dt^2} + c\frac{dx}{dt} + kx = 0
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # please uncomment these two lines, if you run this code in Colab</span>
+<span class="c1"># !git clone https://github.com/xiaoyuxie-vico/PyDimension-Book</span>
+<span class="c1"># %cd PyDimension-Book/examples</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="helper-functions">
 <h2>Helper functions<a class="headerlink" href="#helper-functions" title="Permalink to this headline">#</a></h2>
@@ -680,10 +689,10 @@ m\frac{d^2 x}{dt^2} + c\frac{dx}{dt} + kx = 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fe65a855850&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f2190ca42d0&gt;]
 </pre></div>
 </div>
-<img alt="../_images/discover_spring_clean_14_1.png" src="../_images/discover_spring_clean_14_1.png" />
+<img alt="../_images/discover_spring_clean_15_1.png" src="../_images/discover_spring_clean_15_1.png" />
 </div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">FitEqu()</span></code> is used for generating and parsing the dataset, build the regression library, and identifying the best differential equations.</p>
@@ -811,7 +820,7 @@ m\frac{d^2 x}{dt^2} + c\frac{dx}{dt} + kx = 0
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting r2 1.0
 </pre></div>
 </div>
-<img alt="../_images/discover_spring_clean_16_4.png" src="../_images/discover_spring_clean_16_4.png" />
+<img alt="../_images/discover_spring_clean_17_4.png" src="../_images/discover_spring_clean_17_4.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     m    k    A0      c   k_coef   m_coef  k_coef_err_per  c_coef_err_per
 0  1.0  1.0  0.10  0.100 -10.0086 -10.0170        0.000860        0.001700
 1  0.8  0.5  0.05  0.050 -10.0054 -16.0171        0.000540        0.001069
@@ -1126,11 +1135,11 @@ final r2 0.9999999469825553 [ 0.  1.  0. -1.] [[-1.0008227]]
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="gradient_descent.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="sensitive_analysis.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Tutorial 1.2: Gradient descent-based two level optimization</p>
+            <p class="prev-next-title">Tutorial 1.6: Sensitivity analysis</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="../docs/Resources.html" title="next page">

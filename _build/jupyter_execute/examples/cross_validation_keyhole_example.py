@@ -47,6 +47,14 @@ np.set_printoptions(suppress=True)
 # In[2]:
 
 
+# # please uncomment these two lines, if you run this code in Colab
+# !git clone https://github.com/xiaoyuxie-vico/PyDimension-Book
+# %cd PyDimension-Book/examples
+
+
+# In[3]:
+
+
 class DimensionlessLearning(object):
     '''
     Indentify the explicit form one coefficient using dimensionless learning
@@ -196,7 +204,7 @@ class DimensionlessLearning(object):
         return r2, basis_coef, reg_coef, coef_w
 
 
-# In[3]:
+# In[4]:
 
 
 # load dataset
@@ -222,7 +230,7 @@ data_test = np.concatenate([X_train_val, y_train_val.reshape(-1, 1)], axis=1)
 print(f'[Dataset] X_train: {data_train_val.shape}, X_test: {data_test.shape}')
 
 
-# In[4]:
+# In[5]:
 
 
 # Dimensionless learning
@@ -261,7 +269,7 @@ basis3_in = scaling_mat[:, 2]
 basis_list = [basis1_in, basis2_in, basis3_in]
 
 
-# In[5]:
+# In[6]:
 
 
 # cross-validation
@@ -303,7 +311,7 @@ df = pd.DataFrame(np.array([model_name_list, r2_train_list, r2_val_list, r2_tes_
 print(df.head())
 
 
-# In[6]:
+# In[7]:
 
 
 res_final = []
@@ -319,7 +327,7 @@ df_final = pd.DataFrame(res_final, columns=['Model_name', 'R2', 'Data source'])
 df_final.head()
 
 
-# In[7]:
+# In[8]:
 
 
 fig = plt.figure()
@@ -332,31 +340,31 @@ plt.tick_params(labelsize=14)
 plt.tight_layout()
 
 
-# In[8]:
+# In[9]:
 
 
 df_final[(df_final['Model_name'] == '1st order') & (df_final['Data source'] == 'Test set')].describe().iloc[1]
 
 
-# In[9]:
+# In[10]:
 
 
 df_final[(df_final['Model_name'] == '2nd order') & (df_final['Data source'] == 'Test set')].describe().iloc[1]
 
 
-# In[10]:
+# In[11]:
 
 
 df_final[(df_final['Model_name'] == '3rd order') & (df_final['Data source'] == 'Test set')].describe().iloc[1]
 
 
-# In[11]:
+# In[12]:
 
 
 df_final[(df_final['Model_name'] == '4th order') & (df_final['Data source'] == 'Test set')].describe().iloc[1]
 
 
-# In[12]:
+# In[13]:
 
 
 df_final[(df_final['Model_name'] == '5th order') & (df_final['Data source'] == 'Test set')].describe().iloc[1]

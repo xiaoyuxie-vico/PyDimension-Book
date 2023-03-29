@@ -14,6 +14,14 @@
 # In[1]:
 
 
+# # please uncomment these two lines, if you run this code in Colab
+# !git clone https://github.com/xiaoyuxie-vico/PyDimension-Book
+# %cd PyDimension-Book/examples
+
+
+# In[2]:
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy.linalg import matrix_rank
@@ -44,7 +52,7 @@ plt.rcParams["font.family"] = 'Arial'
 np.set_printoptions(suppress=True)
 
 
-# In[2]:
+# In[3]:
 
 
 np.random.seed(0)
@@ -88,7 +96,7 @@ print(df.head())
 print('Re_min, Re_max', Re_min, Re_max)
 
 
-# In[3]:
+# In[4]:
 
 
 # train_val set
@@ -116,7 +124,7 @@ df_train_noise = pd.DataFrame(data_train_val, columns=['mu', 'l', 'v', 'rho', 'p
 df_train_noise.describe()
 
 
-# In[4]:
+# In[5]:
 
 
 class DimensionlessLearning(object):
@@ -245,7 +253,7 @@ class DimensionlessLearning(object):
         return r2, reg_coef_final, coef_w_final
 
 
-# In[5]:
+# In[6]:
 
 
 # Dimensionless learning
@@ -290,7 +298,7 @@ df_dimension = pd.DataFrame(np.array([model_name_list, r2_train_list, r2_val_lis
 print(df_dimension)
 
 
-# In[6]:
+# In[7]:
 
 
 # normalization
@@ -302,7 +310,7 @@ y_train_val_transformed = scaler.fit_transform(y_train_val)
 y_test_transformed = scaler.transform(y_test)
 
 
-# In[7]:
+# In[8]:
 
 
 def train_eval(model_name, para_grids):
@@ -335,7 +343,7 @@ def train_eval(model_name, para_grids):
     return df
 
 
-# In[8]:
+# In[9]:
 
 
 # key: model_name, value: para_grids
@@ -367,7 +375,7 @@ configs = {
 }
 
 
-# In[9]:
+# In[10]:
 
 
 # combine different models' results
@@ -381,7 +389,7 @@ res_all = res_all.astype({'Train': 'float64', 'Val': 'float64', 'Test': 'float64
 res_all.head()
 
 
-# In[10]:
+# In[11]:
 
 
 model_name_map = {
@@ -405,7 +413,7 @@ df_final = pd.DataFrame(res_final, columns=['Model_name', 'R2', 'Data source'])
 df_final.head()
 
 
-# In[11]:
+# In[12]:
 
 
 fig = plt.figure()

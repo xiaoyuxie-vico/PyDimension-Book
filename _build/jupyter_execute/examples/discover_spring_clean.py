@@ -47,11 +47,19 @@ plt.rcParams["font.family"] = "Arial"
 np.set_printoptions(suppress=True)
 
 
+# In[2]:
+
+
+# # please uncomment these two lines, if you run this code in Colab
+# !git clone https://github.com/xiaoyuxie-vico/PyDimension-Book
+# %cd PyDimension-Book/examples
+
+
 # ## Helper functions
 
 # `SeqReg()` is a class to identify differential equations using sparse regression.
 
-# In[2]:
+# In[3]:
 
 
 class SeqReg(object):
@@ -141,7 +149,7 @@ class SeqReg(object):
 
 # `PolyDiffPoint()`is used to calculate derivatives using polynomial functions. 
 
-# In[3]:
+# In[4]:
 
 
 def PolyDiffPoint(u, x, deg=3, diff=1, index=None):
@@ -168,7 +176,7 @@ def PolyDiffPoint(u, x, deg=3, diff=1, index=None):
 # 
 # `SpringMassDataset()` is a class to generate simualtion data set.
 
-# In[4]:
+# In[5]:
 
 
 class SpringMassDataset(object):
@@ -208,7 +216,7 @@ plt.plot(data_old['t'], data_old['x'])
 
 # `FitEqu()` is used for generating and parsing the dataset, build the regression library, and identifying the best differential equations.
 
-# In[5]:
+# In[6]:
 
 
 class FitEqu(object):
@@ -368,7 +376,7 @@ print(df)
 #          \end{bmatrix}
 # \end{align}$
 
-# In[6]:
+# In[7]:
 
 
 class DimensionlessLearning(object):
@@ -561,7 +569,7 @@ for i in range(5):
 #          \end{bmatrix}
 # \end{align}$
 
-# In[7]:
+# In[8]:
 
 
 def recover_coef2(seed):

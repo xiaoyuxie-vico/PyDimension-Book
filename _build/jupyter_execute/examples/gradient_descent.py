@@ -28,6 +28,14 @@ from scipy.optimize import minimize
 random.seed(3)
 
 
+# In[2]:
+
+
+# # please uncomment these two lines, if you run this code in Colab
+# !git clone https://github.com/xiaoyuxie-vico/PyDimension-Book
+# %cd PyDimension-Book/examples
+
+
 # ## Parametric space analysis
 
 # Paraemter list:
@@ -36,7 +44,7 @@ random.seed(3)
 
 # ## Load dataset
 
-# In[2]:
+# In[3]:
 
 
 data = np.loadtxt(
@@ -79,7 +87,7 @@ Y = data[:, 7]
 # \right]              
 # \end{equation}
 
-# In[3]:
+# In[4]:
 
 
 D_in = np.mat('2, 1, 1, 2, 2, -3, 0; -3, -1, 0, -2, -1, 0, 0; 1, 0, 0, 0, 0, 1, 0; 0, 0, 0, -1, 0, 0, 1')
@@ -96,7 +104,7 @@ print(D_in_rank)
 # $
 # 
 
-# In[4]:
+# In[5]:
 
 
 Din1 = D_in[:, 0:4]
@@ -120,7 +128,7 @@ print(f'basis3_in: \n{basis3_in}')
 
 # ## Helper functions
 
-# In[5]:
+# In[6]:
 
 
 def calc_pi(a):
@@ -161,7 +169,7 @@ def ploter(pi1, pi2, iteration):
 
 # ## Best representation learning discovery
 
-# In[6]:
+# In[7]:
 
 
 niter = 3000

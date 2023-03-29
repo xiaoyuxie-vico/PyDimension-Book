@@ -22,12 +22,20 @@ from SALib.sample import saltelli
 import seaborn as sns
 
 get_ipython().run_line_magic('matplotlib', 'inline')
-plt.rcParams["font.family"] = 'Arial'
+# plt.rcParams["font.family"] = 'Arial'
+
+
+# In[2]:
+
+
+# # please uncomment these two lines, if you run this code in Colab
+# !git clone https://github.com/xiaoyuxie-vico/PyDimension-Book
+# %cd PyDimension-Book/examples
 
 
 # ## Helper functions
 
-# In[2]:
+# In[3]:
 
 
 def parse_data(df, para_list, output='e*'):
@@ -101,7 +109,7 @@ def plot(Si, xtick_labels):
 
 # ## Load keyhole dataset
 
-# In[3]:
+# In[4]:
 
 
 # load data
@@ -111,7 +119,7 @@ df.describe()
 
 # ## Analysis for Ke
 
-# In[4]:
+# In[5]:
 
 
 # config
@@ -132,7 +140,7 @@ model, poly = train_model(X, y, coef_pi, deg)
 Si = SA(para_list, coef_pi, bounds, model, poly)
 
 
-# In[5]:
+# In[6]:
 
 
 xtick_labels = [r'$\eta P$', r'$\rho$', r'$T_l-T_0$', r'$\alpha$', r'$r_0$', r'$V_s$', r'$C_p$']
@@ -143,7 +151,7 @@ plot(Si, xtick_labels)
 
 # ## Add one more parameter $T_v-T_l$
 
-# In[6]:
+# In[7]:
 
 
 # config
@@ -164,7 +172,7 @@ model, poly = train_model(X, y, coef_pi, deg)
 Si = SA(para_list, coef_pi, bounds, model, poly)
 
 
-# In[7]:
+# In[8]:
 
 
 xtick_labels = [r'$\eta P$', r'$V_s$', r'$r_0$', r'$\alpha$', r'$\rho$',
@@ -174,7 +182,7 @@ plot(Si, xtick_labels)
 
 # ## Add one more parameter $L_m$
 
-# In[8]:
+# In[9]:
 
 
 # config
@@ -195,7 +203,7 @@ model, poly = train_model(X, y, coef_pi, deg)
 Si = SA(para_list, coef_pi, bounds, model, poly)
 
 
-# In[9]:
+# In[10]:
 
 
 xtick_labels = [r'$\eta P$', r'$V_s$', r'$r_0$', r'$\alpha$', r'$\rho$',
