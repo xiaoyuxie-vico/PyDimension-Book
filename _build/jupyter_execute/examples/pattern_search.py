@@ -29,9 +29,17 @@ plt.rcParams["font.family"] = 'Arial'
 np.set_printoptions(suppress=True)
 
 
+# In[2]:
+
+
+# # please uncomment these two lines, if you run this code in Colab
+# !git clone https://github.com/xiaoyuxie-vico/PyDimension-Book
+# !cd PyDimension-Book/examples
+
+
 # ## Helper functions
 
-# In[2]:
+# In[3]:
 
 
 class Dataset(object):
@@ -79,7 +87,7 @@ X_train, y_train, X_test, y_test = data_loader.parser()
 print(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
 
 
-# In[3]:
+# In[4]:
 
 
 class DimensionlessLearning(object):
@@ -256,7 +264,7 @@ class DimensionlessLearning(object):
         return r2, power_index, scaling_coef
 
 
-# In[4]:
+# In[5]:
 
 
 def test_keyhole_example(method):
