@@ -321,8 +321,8 @@ def test_keyhole_example(method):
     plt.scatter(pred_train, y_train, label='Training set')
     plt.scatter(pred_test, y_test, label='Test set')
     plt.legend(fontsize=16)
-    plt.xlabel(r'$\pi_1$', fontsize=20)
-    plt.ylabel(r'$\pi_2$', fontsize=20)
+    plt.xlabel(r'$\Pi_1$', fontsize=20)
+    plt.ylabel(r'$\Pi_2$', fontsize=20)
     plt.show()
 
 
