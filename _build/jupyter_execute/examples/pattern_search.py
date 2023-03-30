@@ -285,14 +285,7 @@ def test_keyhole_example(method):
             [0., 0., 0., 0., 0., -1., 1.],
         ],
     )
-    D_out = np.array(
-        [
-            [1.],
-            [0.],
-            [0.],
-            [0.],
-        ]
-    )
+
     # best weights for Ke: 0.5, 1, 1
     # basis vectors in columns
     scaling_mat = np.array(
@@ -328,6 +321,8 @@ def test_keyhole_example(method):
     plt.scatter(pred_train, y_train, label='Training set')
     plt.scatter(pred_test, y_test, label='Test set')
     plt.legend(fontsize=16)
+    plt.xlabel(r'$\pi_1$', fontsize=20)
+    plt.ylabel(r'$\pi_2$', fontsize=20)
     plt.show()
 
 
